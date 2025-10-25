@@ -22,32 +22,8 @@
         die('Connection lost: ' . $e->getMessage());
     }
     
-    // Helper function to convert mysqli queries to PDO
-    function mysqli_query($conn, $query) {
-        try {
-            return $conn->query($query);
-        } catch (PDOException $e) {
-            return false;
-        }
-    }
-    
-    function mysqli_fetch_assoc($result) {
-        if ($result === false) return false;
-        return $result->fetch(PDO::FETCH_ASSOC);
-    }
-    
-    function mysqli_num_rows($result) {
-        if ($result === false) return 0;
-        return $result->rowCount();
-    }
-    
-    function mysqli_insert_id($conn) {
-        return $conn->lastInsertId();
-    }
-    
-    function mysqli_real_escape_string($conn, $string) {
-        return str_replace("'", "''", $string);
-    }
+    // Load MySQLi compatibility layer
+    require_once __DIR__ . '/../mysqli_compat.php';
 
 ?>
 
