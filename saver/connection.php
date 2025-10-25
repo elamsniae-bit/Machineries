@@ -82,53 +82,57 @@
     // Create mysqli-compatible connection object
     $connection = new MySQLiWrapper($db);
     
-    // Override mysqli functions to use our wrapper
-    if (!function_exists('mysqli_query')) {
-        function mysqli_query($conn, $query) {
+    // Helper function to handle mysqli_query calls with our wrapper
+    function safe_mysqli_query($conn, $query) {
+        if ($conn instanceof MySQLiWrapper) {
             return $conn->query($query);
         }
+        // Fallback for real mysqli connections (shouldn't happen in this app)
+        return mysqli_query($conn, $query);
     }
     
-    if (!function_exists('mysqli_fetch_assoc')) {
-        function mysqli_fetch_assoc($result) {
-            if ($result === false || !method_exists($result, 'fetch_assoc')) {
-                return false;
-            }
+    // Helper function to handle mysqli_fetch_assoc
+    function safe_mysqli_fetch_assoc($result) {
+        if ($result === false) {
+            return false;
+        }
+        if ($result instanceof MySQLiResultWrapper) {
             return $result->fetch_assoc();
         }
-    }
-    
-    if (!function_exists('mysqli_num_rows')) {
-        function mysqli_num_rows($result) {
-            if ($result === false || !method_exists($result, 'num_rows')) {
-                return 0;
-            }
-            return $result->num_rows();
+        if (method_exists($result, 'fetch_assoc')) {
+            return $result->fetch_assoc();
         }
+        return mysqli_fetch_assoc($result);
     }
     
-    if (!function_exists('mysqli_insert_id')) {
-        function mysqli_insert_id($conn) {
-            return $conn->insert_id();
-        }
-    }
-    
-    if (!function_exists('mysqli_real_escape_string')) {
-        function mysqli_real_escape_string($conn, $string) {
-            return $conn->real_escape_string($string);
-        }
-    }
-    
-    if (!function_exists('mysqli_error')) {
-        function mysqli_error($conn) {
-            return '';
-        }
-    }
-    
-    if (!function_exists('mysqli_affected_rows')) {
-        function mysqli_affected_rows($conn) {
+    // Helper function to handle mysqli_num_rows
+    function safe_mysqli_num_rows($result) {
+        if ($result === false) {
             return 0;
         }
+        if ($result instanceof MySQLiResultWrapper) {
+            return $result->num_rows();
+        }
+        if (method_exists($result, 'num_rows')) {
+            return $result->num_rows();
+        }
+        return mysqli_num_rows($result);
+    }
+    
+    // Helper function to handle mysqli_insert_id
+    function safe_mysqli_insert_id($conn) {
+        if ($conn instanceof MySQLiWrapper) {
+            return $conn->insert_id();
+        }
+        return mysqli_insert_id($conn);
+    }
+    
+    // Helper function to handle mysqli_real_escape_string
+    function safe_mysqli_real_escape_string($conn, $string) {
+        if ($conn instanceof MySQLiWrapper) {
+            return $conn->real_escape_string($string);
+        }
+        return mysqli_real_escape_string($conn, $string);
     }
 
 ?>
