@@ -1,0 +1,37 @@
+# SQLite database
+*.sqlite
+*.db
+
+# PHP
+*.log
+error_log
+*.cache
+
+# Composer
+/vendor/
+composer.lock
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Upload directories (keep structure but ignore contents)
+upload/*
+!upload/.gitkeep
+
+# Temporary files
+tmp/
+temp/
+*.tmp
