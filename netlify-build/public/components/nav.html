@@ -1,0 +1,96 @@
+<div class="ekit-template-content-markup ekit-template-content-header ekit-template-content-theme-support">
+        <div data-elementor-type="wp-post" data-elementor-id="457" class="elementor elementor-457">
+                <div class="elementor-element elementor-element-a7620f3 elementor-hidden-tablet elementor-hidden-mobile e-flex e-con-boxed e-con e-parent" data-id="a7620f3" data-element_type="container">
+                        <div class="e-con-inner">
+                                <div class="elementor-element elementor-element-ce82c48 e-con-full e-flex e-con e-child" data-id="ce82c48" data-element_type="container">
+                                        <div class="elementor-element elementor-element-b0ecb18 elementor-icon-list--layout-inline elementor-align-left elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list" data-id="b0ecb18" data-element_type="widget" data-widget_type="icon-list.default">
+                                                <div class="elementor-widget-container">
+                                                        <ul class="elementor-icon-list-items elementor-inline-items">
+                                                                <li class="elementor-icon-list-item elementor-inline-item">
+                                                                        <span class="elementor-icon-list-text">1249 N Homestead Rd, North Platte, NE 69101, United States</span>
+                                                                </li>
+                                                                <li class="elementor-icon-list-item elementor-inline-item">
+                                                                        <span class="elementor-icon-list-text">support@heavyquips.com</span>
+                                                                </li>
+                                                                <li class="elementor-icon-list-item elementor-inline-item">
+                                                                        <span class="elementor-icon-list-text">+1(406) 505-9795</span>
+                                                                </li>
+                                                        </ul>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+                <div class="elementor-element elementor-element-ff31a2e e-flex e-con-boxed e-con e-parent" data-id="ff31a2e" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+                        <div class="e-con-inner">
+                                <div class="elementor-element elementor-element-259256c e-con-full e-flex e-con e-child" data-id="259256c" data-element_type="container">
+                                        <div class="elementor-element elementor-element-10039d4 e-con-full e-flex e-con e-child" data-id="10039d4" data-element_type="container">
+                                                <div class="elementor-element elementor-element-063039f elementor-widget elementor-widget-image" data-id="063039f" data-element_type="widget" data-widget_type="image.default">
+                                                        <div class="elementor-widget-container">
+                                                                <a href="/"><img width="289" height="89" src="/wp-content/uploads/sites/20/2024/08/EquipLogo1.png" class="attachment-full size-full wp-image-459" alt="Heavy Equipment" /></a>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                        <div class="elementor-element elementor-element-7e307fd e-con-full e-flex e-con e-child" data-id="7e307fd" data-element_type="container">
+                                                <div class="elementor-element elementor-element-9a6e477 elementor-widget elementor-widget-ekit-nav-menu" data-id="9a6e477" data-element_type="widget" data-widget_type="ekit-nav-menu.default">
+                                                        <div class="elementor-widget-container">
+                                                                <nav class="ekit-wid-con ekit_menu_responsive_tablet">
+                                                                        <div id="ekit-megamenu-equi-menu" class="elementskit-menu-container">
+                                                                                <ul id="menu-equi-menu" class="elementskit-navbar-nav">
+                                                                                        <li class="menu-item"><a href="/" class="ekit-menu-nav-link">Home</a></li>
+                                                                                        <li class="menu-item"><a href="/#about" class="ekit-menu-nav-link">About us</a></li>
+                                                                                        <li class="menu-item"><a href="/#Testimonals" class="ekit-menu-nav-link">Testimonals</a></li>
+                                                                                        <li class="menu-item"><a href="/#FAQs" class="ekit-menu-nav-link">FAQs</a></li>
+                                                                                        <li class="menu-item menu-item-has-children elementskit-dropdown-has">
+                                                                                                <a href="#" class="ekit-menu-nav-link" style="color: white;">Products</a>
+                                                                                                <ul id="categories-dropdown" class="elementskit-dropdown elementskit-submenu-panel">
+                                                                                                        <!-- Categories loaded dynamically -->
+                                                                                                </ul>
+                                                                                        </li>
+                                                                                        <li class="menu-item"><a href="/contact.html" class="ekit-menu-nav-link">Contact</a></li>
+                                                                                        <li id="user-menu-item" class="menu-item">
+                                                                                                <!-- User menu loaded dynamically -->
+                                                                                        </li>
+                                                                                </ul>
+                                                                        </div>
+                                                                </nav>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+</div>
+
+<script>
+// Load navigation on page load
+document.addEventListener('DOMContentLoaded', async () => {
+    // Load categories
+    try {
+        const categories = await API.getCategories();
+        const dropdown = document.getElementById('categories-dropdown');
+        if (dropdown && categories.length > 0) {
+            dropdown.innerHTML = categories.map(cat => {
+                const encodedName = btoa(cat.name);
+                return `<li class="menu-item"><a href="/products.html?categories=${encodedName}" style="color:rgb(239, 141, 42)" class="dropdown-item">${cat.name}</a></li>`;
+            }).join('');
+        } else if (dropdown) {
+            dropdown.innerHTML = '<li class="menu-item" style="color:red;">No available products</li>';
+        }
+    } catch (error) {
+        console.error('Error loading categories:', error);
+    }
+
+    // Load user menu
+    const userMenuItem = document.getElementById('user-menu-item');
+    if (userMenuItem) {
+        if (isLoggedIn()) {
+            const user = JSON.parse(localStorage.getItem('user'));
+            userMenuItem.innerHTML = `<a href="/dashboard.html" class="ekit-menu-nav-link">Dashboard (${user.name})</a>`;
+        } else {
+            userMenuItem.innerHTML = `<a href="/auth/login.html" class="ekit-menu-nav-link">Login</a>`;
+        }
+    }
+});
+</script>
