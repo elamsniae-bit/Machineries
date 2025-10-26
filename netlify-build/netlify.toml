@@ -5,7 +5,6 @@
 
 [dev]
   port = 5000
-  targetPort = 3999
   autoLaunch = false
 
 [[redirects]]
