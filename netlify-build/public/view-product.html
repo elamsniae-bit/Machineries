@@ -1,8 +1,5 @@
-<?php
-
-include('./saver/connection.php');
-
-?>
+<!DOCTYPE html>
+<html lang="en-US">
 <?php
 
 session_start();
@@ -554,7 +551,7 @@ session_start();
 	<?php include('components/nav.php');  ?>
 
 	<div data-elementor-type="wp-post" data-elementor-id="629" class="elementor elementor-629">
-		<div class="elementor-element elementor-element-a1e9e18 e-flex e-con-boxed e-con e-parent" data-id="a1e9e18" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+	<div id="navbar-container"></div>
 			<div class="e-con-inner">
 				<div class="elementor-element elementor-element-a2636ac elementor-widget elementor-widget-heading" data-id="a2636ac" data-element_type="widget" data-widget_type="heading.default">
 					<div class="elementor-widget-container">
@@ -962,7 +959,7 @@ session_start();
 	<?php include('components/footer.php') ?>
 	<script type='text/javascript'>
 		const lazyloadRunObserver = () => {
-			const lazyloadBackgrounds = document.querySelectorAll(`.e-con.e-parent:not(.e-lazyloaded)`);
+	<div id="footer-container"></div>
 			const lazyloadBackgroundObserver = new IntersectionObserver((entries) => {
 				entries.forEach((entry) => {
 					if (entry.isIntersecting) {
@@ -1151,6 +1148,8 @@ session_start();
 	</script>
 	<script src="wp-content/plugins/elementskit-lite/widgets/init/assets/js/elementor6765.js?ver=3.3.3" id="elementskit-elementor-js"></script>
 
+<script src="/js/api.js"></script>
+<script src="/js/load-components.js"></script>
 </body>
 
 <!-- Mirrored from askit.dextheme.net/equip/template-kit/single-equipment/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 12 Dec 2024 10:17:32 GMT -->

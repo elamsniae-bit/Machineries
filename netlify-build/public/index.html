@@ -546,7 +546,7 @@
 
 <body class="home page-template page-template-elementor_header_footer page page-id-996 elementor-default elementor-template-full-width elementor-kit-3 elementor-page elementor-page-996">
         <div id="google_translate_element" style='padding:10px;margin-bottom:5px'></div> 
-		<?php  include('components/nav.php');  ?>
+		<div id="navbar-container"></div>
 	<div data-elementor-type="wp-page" data-elementor-id="996" class="elementor elementor-996">
 		<div class="elementor-element elementor-element-fe533e4 e-flex e-con-boxed e-con e-parent" data-id="fe533e4" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
 			<div class="e-con-inner">
@@ -2505,7 +2505,7 @@
 	</div>
 			<!-- footer  -->
 
-			<?php  include('./components/footer.php');  ?>
+		<div id="footer-container"></div>
 	<script type='text/javascript'>
 		const lazyloadRunObserver = () => {
 			const lazyloadBackgrounds = document.querySelectorAll(`.e-con.e-parent:not(.e-lazyloaded)`);
@@ -2799,6 +2799,8 @@
   </script>
   <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
+<script src="/js/api.js"></script>
+<script src="/js/load-components.js"></script>
 </body>
 
 <!-- Mirrored from askit.dextheme.net/equip/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 12 Dec 2024 10:16:46 GMT -->

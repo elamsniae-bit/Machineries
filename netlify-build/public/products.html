@@ -1,31 +1,5 @@
-<?php include("./saver/connection.php");   ?>
-<?php
-
-		
-		if (isset($_GET['product']) && isset($_SESSION['user_id']) &&  $_SESSION['user_id'] != "" ){
-
-
-			$product = $_GET['product'] ;
-			$user = base64_encode($_SESSION['user_id']);
-			echo  "<script> location.href = 'process.php?product=$product&user=$user'   </script>";
-
-
-		}elseif (isset($_GET['product'])) {
-
-
-			$product = $_GET['product'] ;
-			$_SESSION['url'] = "../process.php?product=$product";
-			echo "<script> location.href='./auth/'  </script> ";
-
-			
-		}
-
-
-
-
-
-?>
-
+<!DOCTYPE html>
+<html lang="en-US">
 <!DOCTYPE html>
 <html lang="en-US">
 
@@ -568,7 +542,7 @@
 
 <body class="envato_tk_templates-template envato_tk_templates-template-elementor_header_footer single single-envato_tk_templates postid-614 elementor-default elementor-template-full-width elementor-kit-3 elementor-page elementor-page-614">
 
-	<?php include("./components/nav.php") ?>
+	<div id="navbar-container"></div>
 
 	<div data-elementor-type="wp-post" data-elementor-id="614" class="elementor elementor-614">
 		<div class="elementor-element elementor-element-87da16f e-flex e-con-boxed e-con e-parent" data-id="87da16f" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
@@ -1157,7 +1131,7 @@
 			</div>
 		</div>
 	</div>
-	<?php include("./components/footer.php")  ?>
+	<div id="footer-container"></div>
 	<script type='text/javascript'>
 		const lazyloadRunObserver = () => {
 			const lazyloadBackgrounds = document.querySelectorAll(`.e-con.e-parent:not(.e-lazyloaded)`);
@@ -1349,6 +1323,8 @@
 	</script>
 	<script src="wp-content/plugins/elementskit-lite/widgets/init/assets/js/elementor6765.js?ver=3.3.3" id="elementskit-elementor-js"></script>
 
+<script src="/js/api.js"></script>
+<script src="/js/load-components.js"></script>
 </body>
 
 <!-- Mirrored from askit.dextheme.net/equip/template-kit/equipments/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 12 Dec 2024 10:17:24 GMT -->
