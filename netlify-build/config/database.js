@@ -13,7 +13,7 @@ async function connectToDatabase() {
     useUnifiedTopology: true,
   });
 
-  const db = client.db('heavyequip');
+  const db = client.db('equipment_rental');
   cachedDb = db;
   return db;
 }

@@ -1,7 +1,7 @@
-# Heavy Equipment Management System (Equip)
+# Heavy Equipment Management System (Machineries)
 
 ## Overview
-This is a PHP-based heavy equipment rental and management system. The application allows users to browse, rent, and manage heavy equipment inventory. It includes both an admin panel and a customer-facing interface.
+This is a **Node.js/MongoDB-based** heavy equipment rental and management system built for Netlify deployment. The application allows users to browse, rent, and manage heavy equipment inventory. It includes both an admin panel and a customer-facing interface with full API integration.
 
 ## Project Structure
 - **admin/** - Administrative dashboard and management tools
@@ -26,22 +26,39 @@ This is a PHP-based heavy equipment rental and management system. The applicatio
 - **upload/** - File upload directory for product images
 
 ## Technology Stack
-- **Backend**: PHP 8.2
-- **Database**: SQLite (converted from MySQL)
-- **Frontend**: HTML, CSS, JavaScript with Bootstrap
-- **Admin UI**: Custom admin dashboard template
+- **Backend**: Node.js with Netlify Serverless Functions
+- **Database**: MongoDB Atlas (cloud-hosted)
+- **Frontend**: HTML, CSS, JavaScript
+- **Framework**: Netlify with automatic deployments
+- **Admin UI**: Custom admin dashboard with JWT authentication
 
 ## Database Setup
-The application uses SQLite for data storage. The database is automatically initialized on first run with the following tables:
-- `admin` - Administrator accounts
-- `categories` - Equipment categories
-- `client` - Customer accounts
-- `products` - Equipment inventory
-- `history` - Rental/transaction history
+The application uses MongoDB Atlas for data storage. The database contains:
+- **categories** - 15 equipment categories
+- **products** - 150 products (10 per category)
+- **users** - Customer and admin accounts
+- **contacts** - Contact form submissions
+- **rentals** - Equipment rental requests
+
+### Categories (15 Total)
+1. Excavators
+2. Bulldozers
+3. Wheel Loaders
+4. Backhoe Loaders
+5. Skid Steer Loaders
+6. Motor Graders
+7. Dump Trucks
+8. Concrete Mixers
+9. Cranes
+10. Forklifts
+11. Compactors
+12. Trenchers
+13. Pavers
+14. Scrapers
+15. Telehandlers
 
 ### Default Admin Credentials
 - **Username**: admin
-- **Email**: admin@heavyequip.com
 - **Password**: admin123
 
 ## Key Features
@@ -67,29 +84,37 @@ The application uses SQLite for data storage. The database is automatically init
 - `init_database.php` - Database initialization script
 
 ## Running the Application
-The application runs on PHP's built-in server:
+The application runs on Netlify Dev Server:
 ```bash
-php -S 0.0.0.0:5000
+cd netlify-build
+netlify dev
 ```
 
-The server is configured to run automatically via Replit workflows.
+The server is configured to run automatically via Replit workflows and serves on `http://localhost:5000`
 
 ## Access Points
-- **Homepage**: `/` or `/index.php`
+- **Homepage**: `/` or `/index.html`
+- **Products**: `/products.html` (with category filtering)
+- **Product Details**: `/view-product.html?id=<product_id>`
+- **Contact**: `/contact.html` (working contact form)
 - **Admin Login**: `/admin/`
-- **Dashboard**: `/dashboard.php`
-- **Products**: `/products.php`
-- **Contact**: `/contact.php`
+- **Admin Dashboard**: `/admin/dashboard.html`
+- **User Dashboard**: `/dashboard.html`
 
-## Recent Changes (October 25, 2025)
-- Migrated from MySQL to SQLite database
-- Created MySQLi compatibility layer for seamless database transition
-- Configured Replit environment for PHP 8.2
-- Set up deployment configuration for VM deployment
-- Fixed session handling to prevent duplicate session_start() calls
-- Initialized database with default admin user and sample categories
+## Recent Changes (October 26, 2025)
+- ✅ **Complete migration from PHP to Node.js/Netlify**
+- ✅ Populated MongoDB with **15 categories** and **150 products**
+- ✅ Created working contact page with API integration
+- ✅ Fixed navbar to display all 15 product categories
+- ✅ All API endpoints working (13 serverless functions)
+- ✅ Created comprehensive GitHub to Netlify deployment guide
+- ✅ Set up proper .gitignore for GitHub deployment
+- ✅ All navigation links and footer links working properly
+
+## Deployment
+See `GITHUB-NETLIFY-DEPLOYMENT-GUIDE.md` for complete instructions on deploying to Netlify via GitHub.
 
 ## Notes
-- The original application was scraped from a WordPress site, so some static content (index.php) still contains WordPress references
-- The functional application parts are in the `/admin/` and `/app/` directories
-- Static assets and WordPress theme files are preserved for styling purposes
+- The original application was scraped from a WordPress site, so some static content still contains WordPress references for styling
+- The functional application is in the `/netlify-build/` directory
+- Old PHP version remains in root directory for reference only
