@@ -7,6 +7,28 @@ channel = "stable-25_05"
 packages = ["mariadb"]
 
 [workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Netlify Dev Server"
+
+[[workflows.workflow]]
+name = "Netlify Dev Server"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd netlify-build && npx netlify dev"
+waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "webview"
 
 [[ports]]
 localPort = 3999
@@ -18,12 +40,12 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
-localPort = 8888
-externalPort = 3002
-
-[[ports]]
 localPort = 39015
 externalPort = 3000
+
+[[ports]]
+localPort = 39281
+externalPort = 5000
 
 [[ports]]
 localPort = 40367
@@ -32,6 +54,14 @@ externalPort = 3003
 [[ports]]
 localPort = 43831
 externalPort = 4200
+
+[[ports]]
+localPort = 44393
+externalPort = 5173
+
+[[ports]]
+localPort = 46275
+externalPort = 3002
 
 [deployment]
 deploymentTarget = "vm"
