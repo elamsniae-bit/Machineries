@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <link rel="icon" type="image/png" href="/machineries-logo.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us - Machineries</title>
+    <link rel='stylesheet' href='wp-content/plugins/elementor/assets/css/frontend.min1ffb.css?ver=3.25.11' media='all' />
+    <link rel='stylesheet' href='wp-content/uploads/sites/20/elementor/css/post-4575520.css?ver=1726190920' media='all' />
+    <link rel='stylesheet' href='wp-content/plugins/elementskit-lite/widgets/init/assets/css/widget-styles6765.css' media='all' />
+    <link rel='stylesheet' href='wp-content/themes/hello-elementor/style.minb12b.css' media='all' />
+    <link rel='stylesheet' href='wp-content/themes/hello-elementor/theme.minb12b.css' media='all' />
+    <style>
+        .contact-container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .contact-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .contact-header h1 {
+            font-size: 48px;
+            color: #FF6900;
+            margin-bottom: 10px;
+        }
+        .contact-header p {
+            font-size: 18px;
+            color: #666;
+        }
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            margin-top: 30px;
+        }
+        .contact-info {
+            padding: 30px;
+        }
+        .contact-info h3 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .info-item {
+            display: flex;
+            align-items: start;
+            margin-bottom: 25px;
+        }
+        .info-item i {
+            font-size: 32px;
+            color: #FF6900;
+            margin-right: 15px;
+            margin-top: 0px;
+            min-width: 40px;
+            max-width: 40px;
+            line-height: 1;
+            display: inline-block;
+        }
+        .info-item .info-text h4 {
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .info-item .info-text p {
+            font-size: 16px;
+            color: #666;
+            margin: 0;
+        }
+        .contact-form {
+            background: #f8f8f8;
+            padding: 40px;
+            border-radius: 10px;
+        }
+        .contact-form h3 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        .submit-btn {
+            background: #FF6900;
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .submit-btn:hover {
+            background: #E55E00;
+        }
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            display: none;
+        }
+        .alert.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        @media (max-width: 768px) {
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="elementor-default elementor-template-full-width elementor-kit-3 elementor-page">
+    <div id="page" class="hfeed site">
+        <div id="navbar-container"></div>
+        
+        <main id="content" class="site-main">
+            <div class="contact-container">
+                <div class="contact-header">
+                    <h1>Contact Us</h1>
+                    <p>Have questions about our heavy equipment? We're here to help!</p>
+                </div>
+                
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <h3>Get in Touch</h3>
+                        
+                        <div class="info-item">
+                            <i>📍</i>
+                            <div class="info-text">
+                                <h4>Our Location</h4>
+                                <p>1249 N Homestead Rd<br>North Platte, NE 69101<br>United States</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <i>📧</i>
+                            <div class="info-text">
+                                <h4>Email Us</h4>
+                                <p>support@heavyquips.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <i>📞</i>
+                            <div class="info-text">
+                                <h4>Call Us</h4>
+                                <p>+1 (406) 505-9795</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <i>🕐</i>
+                            <div class="info-text">
+                                <h4>Business Hours</h4>
+                                <p>Monday - Friday: 8:00 AM - 6:00 PM<br>Saturday: 9:00 AM - 4:00 PM<br>Sunday: Closed</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-form">
+                        <h3>Send us a Message</h3>
+                        
+                        <div id="alert" class="alert"></div>
+                        
+                        <form id="contactForm">
+                            <div class="form-group">
+                                <label for="name">Your Name *</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">Your Email *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="subject">Subject *</label>
+                                <input type="text" id="subject" name="subject" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message">Message *</label>
+                                <textarea id="message" name="message" required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="submit-btn" id="submitBtn">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <div id="footer-container"></div>
+    </div>
+    
+    <script src="wp-includes/js/jquery/jquery.minf43b.js"></script>
+    <script>
+        async function loadComponent(containerId, componentPath) {
+            try {
+                const response = await fetch(componentPath);
+                const html = await response.text();
+                document.getElementById(containerId).innerHTML = html;
+            } catch (error) {
+                console.error(`Error loading component ${componentPath}:`, error);
+            }
+        }
+
+        loadComponent('navbar-container', '/components/navbar.html');
+        loadComponent('footer-container', '/components/footer.html');
+        
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const alert = document.getElementById('alert');
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            alert.style.display = 'none';
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
+            
+            try {
+                const response = await fetch('/api/submit-contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    alert.className = 'alert success';
+                    alert.textContent = data.message;
+                    alert.style.display = 'block';
+                    document.getElementById('contactForm').reset();
+                } else {
+                    throw new Error(data.error || 'Failed to send message');
+                }
+            } catch (error) {
+                alert.className = 'alert error';
+                alert.textContent = 'Sorry, there was an error sending your message. Please try again later.';
+                alert.style.display = 'block';
+                console.error('Error:', error);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            }
+        });
+    </script>
+</body>
+</html>

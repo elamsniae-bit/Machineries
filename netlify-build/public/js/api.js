@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const categories = await API.getCategories();
             const categoriesHTML = categories.map(cat => {
                 const encodedName = btoa(cat.name);
-                return `<li class="menu-item"><a href="products.html?categories=${encodedName}">${cat.name}</a></li>`;
+                return `<li class="menu-item"><a href="/products.html?category=${encodedName}">${cat.name}</a></li>`;
             }).join('');
             
             // Find the right place to inject categories
