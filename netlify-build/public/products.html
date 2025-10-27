@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html lang="en-US">
-<!DOCTYPE html>
-<html lang="en-US">
 
 <!-- Mirrored from askit.dextheme.net/equip/template-kit/equipments/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 12 Dec 2024 10:17:16 GMT -->
 <!-- Added by HTTrack -->
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 
 <head>
-    <link rel="icon" type="image/png" href="/machineries-logo.png">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Machineries - Heavy Equipment Rental</title>
+        <title>Products &#8211; Equip</title>
         <meta name='robots' content='max-image-preview:large' />
         <style>
                 img:is([sizes="auto" i], [sizes^="auto," i]) {
@@ -543,7 +540,7 @@
 
 <body class="envato_tk_templates-template envato_tk_templates-template-elementor_header_footer single single-envato_tk_templates postid-614 elementor-default elementor-template-full-width elementor-kit-3 elementor-page elementor-page-614">
 
-        <div id="navbar-container"></div>
+        <?php include("./components/nav.php") ?>
 
         <div data-elementor-type="wp-post" data-elementor-id="614" class="elementor elementor-614">
                 <div class="elementor-element elementor-element-87da16f e-flex e-con-boxed e-con e-parent" data-id="87da16f" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
@@ -555,13 +552,70 @@
                                 </div>
                                 <div class="elementor-element elementor-element-9c60077 elementor-widget elementor-widget-text-editor" data-id="9c60077" data-element_type="widget" data-widget_type="text-editor.default">
                                         <div class="elementor-widget-container">
-                                                <p id="category-name"></p>
+                                                <p><?php echo base64_decode($_GET['categories']) ?></p>
                                         </div>
                                 </div>
                         </div>
                 </div>
                 <div class="elementor-element elementor-element-0037b70 e-con-full e-flex e-con e-child" data-id="0037b70" data-element_type="container">
     <div class="e-con-inner product-grid" id="product-grid">
+        <?php
+        // Get the category from the URL
+        $categorie = base64_decode($_GET['categories']);
+        $query = mysqli_query($connection, "SELECT * FROM `products` WHERE `categorie` = '$categorie'");
+
+        // Check if products exist in the category
+        if (mysqli_num_rows($query) > 0) {
+            while ($load = mysqli_fetch_assoc($query)) { ?>
+                <div class="product-item">
+                    <!-- Product Image -->
+                    <div class="elementor-element elementor-element-0ecd35b elementor-widget elementor-widget-image" data-id="0ecd35b" data-element_type="widget" data-widget_type="image.default">
+                        <div class="elementor-widget-container">
+                            <img fetchpriority="high" decoding="async" width="650" height="493" src="" class="attachment-full size-full wp-image-149" alt="" srcset="<?php echo $host.'/upload/'.$load['image'] ?> 650w, https://askit.dextheme.net/equip/wp-content/uploads/sites/20/2024/07/3RN4F45b-300x228.png 300w" sizes="(max-width: 650px) 100vw, 650px" />
+                        </div>
+                    </div>
+
+                    <!-- Product Title -->
+                    <div class="elementor-element elementor-element-e036271 elementor-widget elementor-widget-heading" data-id="e036271" data-element_type="widget" data-widget_type="heading.default">
+                        <div class="elementor-widget-container">
+                            <a href="view.php?product_id=<?php echo base64_encode("$load[id]") ?>&product_cat=<?php echo $_GET['categories'] ?>">
+                                <h4 class="elementor-heading-title elementor-size-default"><?php echo $load['name'] ?></h4>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Product Description -->
+                    <div class="elementor-element elementor-element-d012478 elementor-widget elementor-widget-text-editor" data-id="d012478" data-element_type="widget" data-widget_type="text-editor.default">
+                        <div class="elementor-widget-container">
+                            <p><?php echo $load['des'] ?></p>
+                        </div>
+                    </div>
+
+                    <!-- Product Price -->
+                    <div class="elementor-element elementor-element-8a51bdc elementor-widget elementor-widget-heading" data-id="8a51bdc" data-element_type="widget" data-widget_type="heading.default">
+                        <div class="elementor-widget-container">
+                            <h4 class="elementor-heading-title elementor-size-default"><?php echo $load['price'] ?></h4>
+                        </div>
+                    </div>
+
+                    <!-- Purchase Button -->
+                    <div class="elementor-element elementor-element-24f2386 elementor-align-justify elementor-widget elementor-widget-button" data-id="24f2386" data-element_type="widget" data-widget_type="button.default">
+                        <div class="elementor-widget-container">
+                            <div class="elementor-button-wrapper">
+                                <a class="elementor-button elementor-button-link elementor-size-sm elementor-animation-float" href="?categories=<?php echo $_GET['categories'] ?>&product=<?php echo base64_encode("$load[id]") ?>">
+                                    <span class="elementor-button-content-wrapper">
+                                        <span class="elementor-button-text">Purchase</span>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php }
+        } else {
+            echo "<script> location.href = './404.php' </script>";
+        }
+        ?>
     </div>
 </div>
 
@@ -574,21 +628,21 @@
         gap: 20px;
         padding: 20px;
     }
-    
+
     /* 2 items per row on tablet */
     @media (max-width: 1024px) {
         #product-grid {
             grid-template-columns: repeat(3, 1fr); /* 2 items per row on tablet */
         }
     }
-    
+
     /* 1 item per row on mobile */
     @media (max-width: 768px) {
         #product-grid {
             grid-template-columns: 1fr; /* 1 item per row on mobile */
         }
     }
-    
+
     /* Style for each product item */
     .product-item {
         background-color: #fff;
@@ -598,28 +652,28 @@
         text-align: center;
         transition: transform 0.3s ease-in-out;
     }
-    
+
     .product-item:hover {
         transform: scale(1.05);
     }
-    
+
     /* Optional: Add some spacing or customization for text, image, etc. */
     .product-item img {
         max-width: 100%;
         height: auto;
         margin-bottom: 10px;
     }
-    
+
     .product-item h4 {
         font-size: 1.2rem;
         margin: 10px 0;
     }
-    
+
     .product-item p {
         font-size: 1rem;
         color: #555;
     }
-    
+
     .product-item .elementor-button {
         margin-top: 15px;
     }
@@ -1075,7 +1129,7 @@
                         </div>
                 </div>
         </div>
-        <div id="footer-container"></div>
+        <?php include("./components/footer.php")  ?>
         <script type='text/javascript'>
                 const lazyloadRunObserver = () => {
                         const lazyloadBackgrounds = document.querySelectorAll(`.e-con.e-parent:not(.e-lazyloaded)`);
@@ -1267,78 +1321,8 @@
         </script>
         <script src="wp-content/plugins/elementskit-lite/widgets/init/assets/js/elementor6765.js?ver=3.3.3" id="elementskit-elementor-js"></script>
 
-<script src="/js/api.js"></script>
-<script src="/js/load-components.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', async () => {
-    const params = new URLSearchParams(window.location.search);
-    const category = params.get('category');
-    
-    const categoryNameEl = document.getElementById('category-name');
-    const productGrid = document.getElementById('product-grid');
-    
-    if (category) {
-        categoryNameEl.textContent = category;
-    }
-    
-    try {
-        const products = await API.getProducts(category);
-        
-        if (products && products.length > 0) {
-            products.forEach(product => {
-                const productItem = document.createElement('div');
-                productItem.className = 'product-item';
-                productItem.innerHTML = `
-                    <div class="elementor-element elementor-element-0ecd35b elementor-widget elementor-widget-image" data-id="0ecd35b" data-element_type="widget" data-widget_type="image.default">
-                        <div class="elementor-widget-container">
-                            <img fetchpriority="high" decoding="async" width="650" height="493" 
-                                 src="/wp-content/uploads/sites/20/2024/07/${product.image}" 
-                                 class="attachment-full size-full wp-image-149" alt="${product.name}" />
-                        </div>
-                    </div>
-                    <div class="elementor-element elementor-element-e036271 elementor-widget elementor-widget-heading" data-id="e036271" data-element_type="widget" data-widget_type="heading.default">
-                        <div class="elementor-widget-container">
-                            <a href="/view-product.html?id=${product._id}">
-                                <h4 class="elementor-heading-title elementor-size-default">${product.name}</h4>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="elementor-element elementor-element-d012478 elementor-widget elementor-widget-text-editor" data-id="d012478" data-element_type="widget" data-widget_type="text-editor.default">
-                        <div class="elementor-widget-container">
-                            <p>${product.des || ''}</p>
-                        </div>
-                    </div>
-                    <div class="elementor-element elementor-element-8a51bdc elementor-widget elementor-widget-heading" data-id="8a51bdc" data-element_type="widget" data-widget_type="heading.default">
-                        <div class="elementor-widget-container">
-                            <h4 class="elementor-heading-title elementor-size-default">$${product.price}/day</h4>
-                        </div>
-                    </div>
-                    <div class="elementor-element elementor-element-24f2386 elementor-align-justify elementor-widget elementor-widget-button" data-id="24f2386" data-element_type="widget" data-widget_type="button.default">
-                        <div class="elementor-widget-container">
-                            <div class="elementor-button-wrapper">
-                                <a class="elementor-button elementor-button-link elementor-size-sm elementor-animation-float" href="/view-product.html?id=${product._id}">
-                                    <span class="elementor-button-content-wrapper">
-                                        <span class="elementor-button-text">View Details</span>
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                productGrid.appendChild(productItem);
-            });
-        } else {
-            productGrid.innerHTML = '<p style="text-align: center; width: 100%; padding: 40px;">No products found in this category.</p>';
-        }
-    } catch (error) {
-        console.error('Error loading products:', error);
-        productGrid.innerHTML = '<p style="text-align: center; width: 100%; padding: 40px;">Error loading products. Please try again later.</p>';
-    }
-});
-</script>
 </body>
 
 <!-- Mirrored from askit.dextheme.net/equip/template-kit/equipments/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 12 Dec 2024 10:17:24 GMT -->
 
 </html>
-

@@ -6,10 +6,9 @@
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 
 <head>
-    <link rel="icon" type="image/png" href="/machineries-logo.png">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Machineries - Heavy Equipment Rental</title>
+        <title>more details &#8211; Equip</title>
         <meta name='robots' content='max-image-preview:large' />
         <style>
                 img:is([sizes="auto" i], [sizes^="auto," i]) {
@@ -542,9 +541,10 @@
 
 <body class="envato_tk_templates-template envato_tk_templates-template-elementor_header_footer single single-envato_tk_templates postid-629 elementor-default elementor-template-full-width elementor-kit-3 elementor-page elementor-page-629">
 
-        <div id="navbar-container"></div>
+        <?php include('components/nav.php');  ?>
 
         <div data-elementor-type="wp-post" data-elementor-id="629" class="elementor elementor-629">
+                <div class="elementor-element elementor-element-a1e9e18 e-flex e-con-boxed e-con e-parent" data-id="a1e9e18" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
                         <div class="e-con-inner">
                                 <div class="elementor-element elementor-element-a2636ac elementor-widget elementor-widget-heading" data-id="a2636ac" data-element_type="widget" data-widget_type="heading.default">
                                         <div class="elementor-widget-container">
@@ -559,12 +559,22 @@
                         </div>
                 </div>
 
-                <div id="product-details-container" class="elementor-element elementor-element-6a69fc4 e-flex e-con-boxed e-con e-parent" data-id="6a69fc4" data-element_type="container">
+
+                <?php
+
+                $id = base64_decode($_GET['product_id']);
+                $cat = base64_decode($_GET['product_cat']);
+                $query = mysqli_query($connection, "SELECT * FROM `products` WHERE `categorie`='$cat' AND `id` = '$id' ");
+
+                while ($load = mysqli_fetch_assoc($query)) { ?>
+
+
+                        <div class="elementor-element elementor-element-6a69fc4 e-flex e-con-boxed e-con e-parent" data-id="6a69fc4" data-element_type="container">
                                 <div class="e-con-inner">
                                         <div class="elementor-element elementor-element-34e02c1 e-con-full e-flex e-con e-child" data-id="34e02c1" data-element_type="container">
                                                 <div class="elementor-element elementor-element-e6ccd73 elementor-widget elementor-widget-image" data-id="e6ccd73" data-element_type="widget" data-widget_type="image.default">
                                                         <div class="elementor-widget-container">
-                                                                <img id="product-image" fetchpriority="high" decoding="async" width="650" height="493" src="" class="attachment-full size-full wp-image-155" alt="" />
+                                                                <img fetchpriority="high" decoding="async" width="650" height="493" src="./upload/<?php echo $load['image'] ?>" class="attachment-full size-full wp-image-155" alt="" srcset="<?php echo $host."/upload/".$load['image'] ?> 650w, https://askit.dextheme.net/equip/wp-content/uploads/sites/20/2024/07/YTFMGZ3d-300x228.png 300w" sizes="(max-width: 650px) 100vw, 650px" />
                                                         </div>
                                                 </div>
 
@@ -642,12 +652,12 @@
                                                 </div>
                                                 <div class="elementor-element elementor-element-0241b92 elementor-widget elementor-widget-heading" data-id="0241b92" data-element_type="widget" data-widget_type="heading.default">
                                                         <div class="elementor-widget-container">
-                                                                <h2 id="product-name" class="elementor-heading-title elementor-size-default"></h2>
+                                                                <h2 class="elementor-heading-title elementor-size-default"><?php  echo $load['name'] ?></h2>
                                                         </div>
                                                 </div>
                                                 <div class="elementor-element elementor-element-d38bac7 elementor-widget elementor-widget-text-editor" data-id="d38bac7" data-element_type="widget" data-widget_type="text-editor.default">
                                                         <div class="elementor-widget-container">
-                                                                <p id="product-description"></p>
+                                                                <p><?php  echo $load['des'] ?></p>
                                                         </div>
                                                 </div>
                                                 <div class="elementor-element elementor-element-9f73f89 elementor-widget elementor-widget-heading" data-id="9f73f89" data-element_type="widget" data-widget_type="heading.default">
@@ -665,7 +675,7 @@
                                                                         </div>
                                                                         <div class="elementor-element elementor-element-7a0a9eb elementor-widget elementor-widget-heading" data-id="7a0a9eb" data-element_type="widget" data-widget_type="heading.default">
                                                                                 <div class="elementor-widget-container">
-                                                                                        <h6 id="product-brand" class="elementor-heading-title elementor-size-default"></h6>
+                                                                                        <h6 class="elementor-heading-title elementor-size-default"><?php  echo $load['brand'] ?></h6>
                                                                                 </div>
                                                                         </div>
                                                                 </div>
@@ -677,7 +687,7 @@
                                                                         </div>
                                                                         <div class="elementor-element elementor-element-e9c8d30 elementor-widget elementor-widget-heading" data-id="e9c8d30" data-element_type="widget" data-widget_type="heading.default">
                                                                                 <div class="elementor-widget-container">
-                                                                                        <h6 id="product-price" class="elementor-heading-title elementor-size-default"></h6>
+                                                                                        <h6 class="elementor-heading-title elementor-size-default"><?php  echo $load['price'] ?></h6>
                                                                                 </div>
                                                                         </div>
                                                                 </div>
@@ -691,7 +701,7 @@
                                                                         </div>
                                                                         <div class="elementor-element elementor-element-ad4f54b elementor-widget elementor-widget-heading" data-id="ad4f54b" data-element_type="widget" data-widget_type="heading.default">
                                                                                 <div class="elementor-widget-container">
-                                                                                        <h6 id="product-category" class="elementor-heading-title elementor-size-default"></h6>
+                                                                                        <h6 class="elementor-heading-title elementor-size-default"><?php  echo $load['categorie'] ?></h6>
                                                                                 </div>
                                                                         </div>
                                                                 </div>
@@ -703,7 +713,7 @@
                                                                         </div>
                                                                         <div class="elementor-element elementor-element-fd05a59 elementor-widget elementor-widget-heading" data-id="fd05a59" data-element_type="widget" data-widget_type="heading.default">
                                                                                 <div class="elementor-widget-container">
-                                                                                        <h6 id="product-model" class="elementor-heading-title elementor-size-default"></h6>
+                                                                                        <h6 class="elementor-heading-title elementor-size-default"><?php  echo $load['model'] ?></h6>
                                                                                 </div>
                                                                         </div>
                                                                 </div>
@@ -719,7 +729,7 @@
                                                                         </div>
                                                                         <div class="elementor-element elementor-element-37b45de elementor-widget elementor-widget-heading" data-id="37b45de" data-element_type="widget" data-widget_type="heading.default">
                                                                                 <div class="elementor-widget-container">
-                                                                                        <h6 id="product-condition" class="elementor-heading-title elementor-size-default"></h6>
+                                                                                        <h6 class="elementor-heading-title elementor-size-default"><?php  echo $load['productcondition'] ?></h6>
                                                                                 </div>
                                                                         </div>
                                                                 </div>
@@ -731,7 +741,7 @@
                                                                         </div>
                                                                         <div class="elementor-element elementor-element-f01962f elementor-widget elementor-widget-heading" data-id="f01962f" data-element_type="widget" data-widget_type="heading.default">
                                                                                 <div class="elementor-widget-container">
-                                                                                        <h6 id="product-year" class="elementor-heading-title elementor-size-default"></h6>
+                                                                                        <h6 class="elementor-heading-title elementor-size-default"><?php  echo $load['year'] ?></h6>
                                                                                 </div>
                                                                         </div>
                                                                 </div>
@@ -745,7 +755,7 @@
                                                                         </div>
                                                                         <div class="elementor-element elementor-element-0b36366 elementor-widget elementor-widget-heading" data-id="0b36366" data-element_type="widget" data-widget_type="heading.default">
                                                                                 <div class="elementor-widget-container">
-                                                                                        <h6 id="product-weight" class="elementor-heading-title elementor-size-default"></h6>
+                                                                                        <h6 class="elementor-heading-title elementor-size-default"><?php  echo $load['weight'] ?></h6>
                                                                                 </div>
                                                                         </div>
                                                                 </div>
@@ -854,6 +864,13 @@
                                 </div>
                         </div>
 
+
+
+                <?php	}
+
+
+                ?>
+
                 <div class="elementor-element elementor-element-5dc93c8 e-flex e-con-boxed e-con e-parent" data-id="5dc93c8" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
                         <div class="e-con-inner">
                                 <div class="elementor-element elementor-element-a4dbbf7 e-con-full e-flex e-con e-child" data-id="a4dbbf7" data-element_type="container">
@@ -932,9 +949,10 @@
                 </div>
         </div>
 
-        <div id="footer-container"></div>
+        <?php include('components/footer.php') ?>
         <script type='text/javascript'>
                 const lazyloadRunObserver = () => {
+                        const lazyloadBackgrounds = document.querySelectorAll(`.e-con.e-parent:not(.e-lazyloaded)`);
                         const lazyloadBackgroundObserver = new IntersectionObserver((entries) => {
                                 entries.forEach((entry) => {
                                         if (entry.isIntersecting) {
@@ -1123,43 +1141,6 @@
         </script>
         <script src="wp-content/plugins/elementskit-lite/widgets/init/assets/js/elementor6765.js?ver=3.3.3" id="elementskit-elementor-js"></script>
 
-<script src="/js/api.js"></script>
-<script src="/js/load-components.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', async () => {
-    const params = new URLSearchParams(window.location.search);
-    const productId = params.get('id');
-    
-    if (!productId) {
-        window.location.href = '/products.html';
-        return;
-    }
-    
-    try {
-        const product = await API.getProductDetails(productId);
-        
-        if (product) {
-            document.getElementById('product-image').src = `/wp-content/uploads/sites/20/2024/07/${product.image}`;
-            document.getElementById('product-image').alt = product.name;
-            document.getElementById('product-name').textContent = product.name;
-            document.getElementById('product-description').textContent = product.des || '';
-            document.getElementById('product-brand').textContent = product.brand || 'N/A';
-            document.getElementById('product-price').textContent = `$${product.price}/day`;
-            document.getElementById('product-category').textContent = product.categorie || 'N/A';
-            document.getElementById('product-model').textContent = product.model || 'N/A';
-            document.getElementById('product-condition').textContent = product.productcondition || 'N/A';
-            document.getElementById('product-year').textContent = product.year || 'N/A';
-            document.getElementById('product-weight').textContent = product.weight || 'N/A';
-        } else {
-            alert('Product not found');
-            window.location.href = '/products.html';
-        }
-    } catch (error) {
-        console.error('Error loading product:', error);
-        alert('Error loading product details');
-    }
-});
-</script>
 </body>
 
 <!-- Mirrored from askit.dextheme.net/equip/template-kit/single-equipment/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 12 Dec 2024 10:17:32 GMT -->
