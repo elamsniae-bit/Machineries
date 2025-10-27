@@ -1,0 +1,166 @@
+const { MongoClient } = require('mongodb');
+require('dotenv').config();
+
+const MONGODB_URI = process.env.MONGODB_URI;
+
+const admins = [
+  { id: 1, username: 'kingsley sepiri ', email: 'kingsleysepiri@gmail.com', password: '1234' },
+  { id: 2, username: 'admin', email: 'Wp1457087@gmail.com', password: 'ESHINANDU..@' }
+];
+
+const categories = [
+  { id: 8, name: ' Excavators' },
+  { id: 11, name: 'Backhoe Loaders' },
+  { id: 12, name: 'Dump Trucks ' },
+  { id: 13, name: 'Crane Trucks' },
+  { id: 14, name: 'Graders' },
+  { id: 15, name: 'Compactors' },
+  { id: 16, name: 'Forklifts ' },
+  { id: 17, name: 'Wheel Loaders' },
+  { id: 21, name: 'Bulldozers' },
+  { id: 22, name: 'Skid-Steer Loaders' },
+  { id: 23, name: 'Chainsaw' }
+];
+
+const clients = [
+  { id: 2, name: 'kingsley', email: 'arumkingsley@gmail.com', password: '1234', phone: '07089611318' },
+  { id: 3, name: 'kingsley', email: 'broifeco@gmail.com', password: '1234', phone: '07089611318' },
+  { id: 4, name: 'Kingsley ', email: 'arumkingsley49@gmail.com', password: '1234', phone: '09017862743' },
+  { id: 5, name: 'Hello', email: 'Hello@gmail.com', password: '1234', phone: '2256' },
+  { id: 6, name: 'm8icheak', email: 'arumkingsley849@gmail.com', password: 'mm', phone: '07089611318' }
+];
+
+const history = [
+  { id: 3, product_id: '7', status: 'declined', quality: '1', rec_name: 'sepiri', rec_email: 'kingsleysepiri@gmail.com', rec_phone: '07089611318', rec_address: 'enugu nigeria', postal: '128885', user: '2', date: '2024-12-25' },
+  { id: 4, product_id: '6', status: 'approved', quality: '1', rec_name: 'hello', rec_email: 'arumkingsley49@gmail.com', rec_phone: '07089611318', rec_address: '12345', postal: '1234567', user: '4', date: '2025-01-09' }
+];
+
+const products = [
+  { id: 5, price: '$32,900.00', name: 'Hitachi ZX130 tracked excavator', brand: 'Isuzu CC-4BG1TC', categorie: ' Excavators', model: 'ZX130', productcondition: 'used', year: '2017', image: '6767f26dae00a4.34041246.jpg', des: 'Hitachi Used ZX130 crawler excavator Japan made Hitachi excavator trackhoe', weight: '12,200 kg' },
+  { id: 6, price: '$33,380.48', name: 'Kubota U27-4 mini excavator', brand: 'Kubota', categorie: ' Excavators', model: 'U27-4', productcondition: 'used', year: '2022', image: '676912ef009b06.93123833.jpg', des: 'Compact, powerful, versatile mini excavator ideal for tight spaces and projects.  Stable working hours and high working efficiency;', weight: '760 m/h' },
+  { id: 7, price: '$16,000.00', name: 'Caterpillar 320BL tracked excavator', brand: 'Caterpillar', categorie: ' Excavators', model: '320BL', productcondition: 'used', year: '2018', image: '67691646655aa3.54344545.jpg', des: 'Original hydraulic system parts and good working condition; Stable working hours and high working efficiency;', weight: '20,620 kg' },
+  { id: 28, price: '$195,700.00', name: 'Komatsu HM300-5', brand: 'Komatsu', categorie: 'Dump Trucks ', model: 'HM300-5', productcondition: 'used', year: '2018', image: '67be3f2273b9c0.49329288.jpg', des: 'Offers excellent traction and power on uneven surfaces, featuring a low fuel consumption engine and advanced transmission system.', weight: '54,000 lbs' },
+  { id: 38, price: '$185,400.00', name: 'John Deere 410E-II', brand: 'John Deere', categorie: 'Dump Trucks ', model: '410E-II', productcondition: 'used', year: '2021', image: '67bf31ad5ff4a1.92167257.jpg', des: 'Combines a powerful engine with a spacious operator cab, ensuring efficient hauling capacity and reduced cycle times.', weight: '64,200 lbs' },
+  { id: 41, price: '$145,000.00', name: 'Mack Granite GU713', brand: 'Mack', categorie: 'Dump Trucks ', model: 'GU713', productcondition: 'used', year: '2017', image: '67bfcbe606d332.90774306.png', des: 'Rugged vocational truck with a steel body, well-suited for construction and heavy material hauling. Dependable on all job sites.', weight: '28,920 lbs' },
+  { id: 42, price: '$158,000.00', name: 'Peterbilt 567', brand: 'Peterbilt', categorie: 'Dump Trucks ', model: '567', productcondition: 'used', year: '2019', image: '67bfcec201c535.92893923.png', des: 'Features a strong, lightweight chassis and advanced driver assist technologies, offering excellent durability and performance.', weight: '30,500 lbs' },
+  { id: 43, price: '$149,600.00', name: 'Freightliner 114SD', brand: 'Freightliner', categorie: 'Dump Trucks ', model: '114SD', productcondition: 'used', year: '2020', image: '67bfd07092c3a3.59591944.png', des: 'A heavy-duty dump truck with a reinforced frame, ideal for municipal work and large construction projects requiring reliable hauling.', weight: '31,600 lbs' },
+  { id: 44, price: '$195,000.00', name: 'Terex Crossover 6000', brand: 'Terex', categorie: 'Crane Trucks', model: 'Crossover 6000', productcondition: 'used', year: '2019', image: '67bfd44d64a055.72252097.png', des: 'Combines the mobility of a truck crane with the lifting power of a boom crane, ideal for various lifting operations on tight job sites.', weight: '39,500 lbs' },
+  { id: 45, price: '$210,300.00', name: 'Grove TMS500E', brand: 'Grove', categorie: 'Crane Trucks', model: 'TMS500E', productcondition: 'used', year: '2018', image: '67bfda6ee66773.80506505.jpg', des: 'Truck-mounted crane offering a 40-ton capacity, with user-friendly controls and a robust hydraulic system for efficient lifts.', weight: '36,900 lbs' },
+  { id: 46, price: '$220,500.00', name: 'Manitex 40124S', brand: 'Manitex', categorie: 'Crane Trucks', model: '40124S', productcondition: 'used', year: '2020', image: '67bff3392bee27.79072447.png', des: 'High-reach crane truck designed for heavy lifting tasks, featuring a four-section boom and durable construction for long service life.', weight: '42,700 lbs' },
+  { id: 47, price: '$205,000.00', name: 'National Crane NBT40', brand: 'National Crane', categorie: 'Crane Trucks', model: 'NBT40', productcondition: 'used', year: '2017', image: '67bff9050d0b08.73074205.png', des: 'A flexible boom truck crane with advanced overload protection and user-friendly controls, suitable for construction and utility applications.', weight: '38,500 lbs' },
+  { id: 48, price: '$185,600.00', name: 'Altec AC45-127S', brand: 'Altec', categorie: 'Crane Trucks', model: 'AC45-127S', productcondition: 'used', year: '2019', image: '67c04ea118d8b2.84944309.png', des: 'Provides a 45-ton capacity and a 127-foot main boom, delivering reliable lifting power for various industrial and commercial jobs.', weight: '40,100 lbs' },
+  { id: 49, price: '$178,400.00', name: 'Palfinger PSC 4329', brand: 'Palfinger', categorie: 'Crane Trucks', model: 'PSC 4329', productcondition: 'used', year: '2018', image: '67c052fd5eda04.78724474.png', des: 'Hydraulically driven crane truck known for its high precision and low maintenance requirements, suitable for diverse lifting needs.', weight: '37,850 lbs' },
+  { id: 50, price: '$135,000.00', name: 'Caterpillar 140M3', brand: 'Caterpillar', categorie: 'Graders', model: '140M3', productcondition: 'used', year: '2017', image: '67c055c53e4a50.13489609.jpg', des: 'Highly versatile motor grader offering precise blade control and advanced power management for road construction and maintenance.', weight: '31,000 lbs' },
+  { id: 51, price: '$128,500.00', name: 'John Deere 672G', brand: 'John Deere', categorie: 'Graders', model: '672G', productcondition: 'used', year: '2019', image: '67c08446ca85d8.92729841.jpg', des: 'Powerful grader with a Tier 4 engine and advanced hydraulic system, ensuring smooth and accurate grading performance.', weight: '32,300 lbs' },
+  { id: 52, price: '$120,700.00', name: 'Komatsu GD655-6', brand: 'Komatsu', categorie: 'Graders', model: 'GD655-6', productcondition: 'used', year: '2018', image: '67c085dc590520.90401299.jpeg', des: 'Features a unique dual-mode transmission and ergonomic cab design, enabling efficient grading in various terrains.', weight: '35,071 lbs' },
+  { id: 53, price: '$140,900.00', name: 'Volvo G960', brand: 'Volvo', categorie: 'Graders', model: 'G960', productcondition: 'used', year: '2016', image: '67c089913ea888.79209537.png', des: 'Durable grader with advanced electronics and a robust frame, delivering excellent productivity and operator comfort.', weight: '34,500 lbs' },
+  { id: 54, price: '$115,300.00', name: 'CASE 885B', brand: 'CASE', categorie: 'Graders', model: '885B', productcondition: 'used', year: '2020', image: '67c09246326884.59501043.png', des: 'A powerful grader designed for precision finishing, with a turbocharged engine and easy-to-use control layout.', weight: '33,900 lbs' },
+  { id: 56, price: '$98,400.00', name: 'LiuGong CLG4180D', brand: 'LiuGong', categorie: 'Graders', model: 'CLG4180D', productcondition: 'used', year: '2018', image: '67c09709178d07.39704046.png', des: 'A sturdy motor grader with precise blade movement and a comfortable operator station, ideal for road construction projects.', weight: '33,000 lbs' },
+  { id: 57, price: '$72,500.00', name: 'Caterpillar CS56B Vibratory Soil Compactor', brand: 'Caterpillar', categorie: 'Compactors', model: 'CS56B', productcondition: 'used', year: '2019', image: '67c0996c652049.59838288.jpg', des: 'Delivers uniform compaction with an advanced vibratory system, suitable for road construction and soil compaction tasks.', weight: '25,000 lbs' },
+  { id: 59, price: '$74,200.00', name: 'Dynapac CA2500D', brand: 'Dynapac', categorie: 'Compactors', model: 'CA2500D', productcondition: 'used', year: '2020', image: '67c0a14c9428e9.44526241.jpg', des: 'Robust compactor designed for medium to large-scale compaction projects, offering excellent gradeability and operator comfort.', weight: '25,500 lbs' },
+  { id: 60, price: '$67,300.00', name: 'Hamm 3410', brand: 'Hamm', categorie: 'Compactors', model: '3410', productcondition: 'used', year: '2017', image: '67c0a2a1551a73.78425195.jpg', des: 'Highly efficient roller with a strong vibration system, ensuring fast and consistent soil compaction in various ground conditions.', weight: '23,800 lbs' },
+  { id: 61, price: '$76,500.00', name: 'Volvo SD115B', brand: 'Volvo', categorie: 'Compactors', model: 'SD115B', productcondition: 'used', year: '2021', image: '67c0a44cd9fec4.95313416.png', des: 'Offers adjustable vibration settings and automatic drum control, delivering precise compaction and improved fuel efficiency.', weight: '24,690 lbs' },
+  { id: 62, price: '$64,900.00', name: 'Sakai SV505', brand: 'Sakai', categorie: 'Compactors', model: 'SV505', productcondition: 'used', year: '2018', image: '67c0a599467263.92268718.jpg', des: 'Known for its excellent traction and compaction performance, suitable for both soil and asphalt applications.', weight: '23,810 lbs' },
+  { id: 63, price: '42,700.00', name: 'Wacker Neuson RD27', brand: 'Wacker Neuson', categorie: 'Compactors', model: 'RD27', productcondition: 'used', year: '2019', image: '67c132b9158288.96311884.png', des: 'A versatile tandem roller for asphalt compaction, offering an ergonomic operator platform and a precise water spray system.', weight: '6,000 lbs' },
+  { id: 64, price: '$18,500.00', name: 'Toyota 8FGU25', brand: 'Toyota', categorie: 'Forklifts ', model: '8FGU25', productcondition: 'used', year: '2019', image: '67c1342eeafc08.36184280.png', des: 'A reliable LPG-powered forklift with excellent lift capacity and smooth maneuverability, perfect for warehouse and yard operations.', weight: '8,000 lbs' },
+  { id: 66, price: '$17,000.00', name: 'Hyster H50FT', brand: 'Hyster', categorie: 'Forklifts ', model: 'H50FT', productcondition: 'used', year: '2018', image: '67c135a990b906.74566851.png', des: 'Durable forklift designed for heavy lifting tasks, featuring advanced ergonomics and strong engine performance.', weight: '8,200 lbs' },
+  { id: 67, price: '$16,500.00', name: 'Caterpillar GP25N', brand: 'Caterpillar', categorie: 'Forklifts ', model: 'GP25N', productcondition: 'used', year: '2017', image: '67c1374f6c15c0.06739860.jpg', des: 'Compact design with a robust mast system, delivering efficient material handling and easy maintenance access.', weight: '7,900 lbs' },
+  { id: 69, price: '$19,800.00', name: 'Clark C30L', brand: 'Clark', categorie: 'Forklifts ', model: 'C30L', productcondition: 'used', year: '2020', image: '67c13a06c255b2.65688150.png', des: 'Offers excellent visibility and stability, featuring a fuel-efficient engine and smooth hydraulic controls for precise load handling.', weight: '9,100 lbs' },
+  { id: 70, price: '$15,600.00', name: 'Yale GP050LX', brand: 'Yale', categorie: 'Forklifts ', model: 'GP050LX', productcondition: 'used/New', year: '2016', image: '67c13bffdc0475.49843156.png', des: 'A dependable forklift with a low-emission engine and ergonomic operator compartment, suitable for various indoor/outdoor tasks.', weight: '8,000 lbs' },
+  { id: 71, price: '$22,100.00', name: 'Komatsu FG25T-16', brand: 'Komatsu', categorie: 'Forklifts ', model: 'FG25T-16', productcondition: 'used', year: '2021', image: '67c13de37804b4.74624123.png', des: 'Built for reliability and strength, featuring a heavy-duty mast and advanced engine technology for improved fuel economy.', weight: '9,200 lbs' },
+  { id: 72, price: '$20,400.00', name: 'Mitsubishi FGC25N', brand: 'Mitsubishi', categorie: 'Forklifts ', model: 'FGC25N', productcondition: 'used', year: '2019', image: '67c13fd67ff876.90563576.png', des: 'Versatile forklift offering smooth hydraulic control, excellent load stability, and reduced noise for operator comfort.', weight: '8,500 lbs' },
+  { id: 73, price: '$145,000.00', name: 'Caterpillar 950M', brand: 'Caterpillar', categorie: 'Wheel Loaders', model: '950M', productcondition: 'used', year: '2018', image: '67c141c2e831e8.25977550.png', des: 'Powerful loader designed for efficient material handling, featuring advanced controls and a spacious, comfortable operator cab.', weight: '42,357 lbs' },
+  { id: 74, price: '$130,500.00', name: 'Volvo L90H', brand: 'Volvo', categorie: 'Wheel Loaders', model: 'L90H', productcondition: 'used', year: '2020', image: '67c1482c032645.62771480.png', des: 'Offers excellent fuel efficiency and responsive hydraulics, ideal for tasks including loading, stockpiling, and material transport.', weight: '35,000 lbs' },
+  { id: 75, price: '$120,300.00', name: 'John Deere 624K-II', brand: 'John Deere', categorie: 'Wheel Loaders', model: '624K-II', productcondition: 'used', year: '2017', image: '67c149c0576523.12851863.jpg', des: 'Mid-sized wheel loader with quick coupler capabilities and smooth shifting transmission for improved productivity.', weight: '34,700 lbs' },
+  { id: 76, price: '$137,600.00', name: 'Komatsu WA380-8', brand: 'Komatsu', categorie: 'Wheel Loaders', model: 'WA380-8', productcondition: 'used', year: '2019', image: '67c14ae2c1c8a3.47770190.jpg', des: 'A versatile loader with a high-capacity bucket and advanced engine technology, delivering lower fuel consumption and emissions.', weight: '39,000 lbs' },
+  { id: 77, price: '$125,400.00', name: 'CASE 721G', brand: 'CASE', categorie: 'Wheel Loaders', model: '721G', productcondition: 'used', year: '2021', image: '67c14c48147638.05451468.jpg', des: 'Equipped with an FPT engine and ProCare coverage, providing reliable performance and extended maintenance intervals.', weight: '33,400 lbs' },
+  { id: 78, price: '$112,900.00', name: 'Doosan DL250-5', brand: 'Doosan', categorie: 'Wheel Loaders', model: 'DL250-5', productcondition: 'used', year: '2018', image: '67c14ea68ca5f6.96428460.jpg', des: 'Delivers high breakout force and fast cycle times, with a comfortable cab design for reduced operator fatigue.', weight: '30,600 lbs' },
+  { id: 79, price: '$118,750.00', name: 'Hyundai HL960', brand: 'Hyundai', categorie: 'Wheel Loaders', model: 'HL960', productcondition: 'used', year: '2020', image: '67c150623ca920.46215536.jpg', des: 'Combines efficient power delivery with a robust hydraulic system, ensuring quick loading operations and increased productivity.', weight: '41,450 lbs' },
+  { id: 80, price: '$28,400.00', name: 'Bobcat S650 Skid-Steer Loader', brand: 'Bobcat', categorie: 'Skid-Steer Loaders', model: 'S650', productcondition: 'used', year: '2019', image: '67c15affc0f0a9.04293537.png', des: 'Versatile skid-steer loader with a vertical lift path, ideal for lifting and loading over truck sidewalls, backfilling, and grading.', weight: '8,300 lbs' },
+  { id: 81, price: '$32,700.00', name: 'Caterpillar 262D3', brand: 'Caterpillar', categorie: 'Skid-Steer Loaders', model: '262D3', productcondition: 'used', year: '2020', image: '67c15cb4a4b861.03647345.jpg', des: 'Equipped with a strong hydraulic system and a comfortable operator station, perfect for heavy-duty lifting and multi-purpose tasks.', weight: '8,011 lbs' },
+  { id: 82, price: '$26,500.00', name: 'John Deere 318G', brand: 'John Deere', categorie: 'Skid-Steer Loaders', model: '318G', productcondition: 'used', year: '2018', image: '67c15e4cf33353.86517108.png', des: 'Compact skid-steer loader offering excellent stability and reliability, designed to handle a variety of attachments with ease.', weight: '6,800 lbs' },
+  { id: 83, price: '$29,900.00', name: 'New Holland L228', brand: 'New Holland', categorie: 'Skid-Steer Loaders', model: 'L228', productcondition: 'used', year: '2021', image: '67c160597d5ac6.29994361.jpg', des: 'Features a large cab and excellent visibility, enabling precise operation in tight spaces for construction or agricultural tasks.', weight: '7,100 lbs' },
+  { id: 84, price: '$24,800.00', name: 'CASE SR210', brand: 'CASE', categorie: 'Skid-Steer Loaders', model: 'SR210', productcondition: 'used', year: '2017', image: '67c165e849fe08.66501450.png', des: 'Provides superior breakout force and a simplified Tier 4 engine solution, making it a dependable choice for daily tasks.', weight: '6,970 lbs' },
+  { id: 85, price: '$31,200.00', name: 'Kubota SSV75', brand: 'Kubota', categorie: 'Skid-Steer Loaders', model: 'SSV75', productcondition: 'used', year: '2019', image: '67c169bf44e133.70136504.png', des: 'Delivers powerful hydraulics and a rugged loader arm design, allowing for efficient lifting and maneuvering in demanding conditions.', weight: '6,975 lbs' },
+  { id: 86, price: '$23,400.00', name: 'Gehl R190', brand: 'Gehl', categorie: 'Skid-Steer Loaders', model: 'R190', productcondition: 'used', year: '2018', image: '67c16bd1482586.95027146.png', des: 'A reliable skid-steer loader featuring a roomy operator station, easy maintenance access, and strong engine performance.', weight: '7,110 lbs' },
+  { id: 88, price: '$125,000.00', name: 'Caterpillar D6T XL', brand: 'Caterpillar', categorie: 'Bulldozers', model: 'D6T XL', productcondition: 'used', year: '2017', image: '67c2c09a784667.53303420.jpg', des: 'A dependable dozer with excellent balance and easy maneuverability, suitable for large-scale earthmoving and land clearing tasks.', weight: '46,500 lbs' },
+  { id: 89, price: '$110,500.00', name: 'Komatsu D65PX-18', brand: 'Komatsu', categorie: 'Bulldozers', model: 'D65PX-18', productcondition: 'used', year: '2019', image: '67c2c1bbd593b1.85856722.jpeg', des: 'A powerful track dozer designed for heavy-duty construction and mining sites, offering advanced blade control and efficient fuel consumption.', weight: '48,175 lbs' },
+  { id: 90, price: '$98,000.00', name: 'John Deere 850K', brand: 'John Deere', categorie: 'Bulldozers', model: '850K', productcondition: 'used', year: '2018', image: '67c2c31125fc05.24225921.png', des: 'Combines robust pushing power with excellent operator comfort and intuitive controls, making it a favorite on busy job sites.', weight: '48,784 lbs' },
+  { id: 91, price: '$145,300.00', name: 'Liebherr PR 736', brand: 'Liebherr', categorie: 'Bulldozers', model: 'PR 736', productcondition: 'used', year: '2020', image: '67c2c488b7bf92.17354728.png', des: 'Equipped with an advanced hydrostatic travel drive and efficient engine technology, providing superior performance and lower fuel costs.', weight: '47,400 lbs' },
+  { id: 92, price: '$89,700.00', name: 'CASE 2050M', brand: 'CASE', categorie: 'Bulldozers', model: '2050M', productcondition: 'used', year: '2017', image: '67c2c771ab2837.15526766.jpg', des: 'Features best-in-class drawbar pull and a robust undercarriage design, ideal for tough grading and site preparation jobs.', weight: '45,000 lbs' },
+  { id: 93, price: '$75,250.00', name: 'Shantui SD22', brand: 'Shantui', categorie: 'Bulldozers', model: 'SD22', productcondition: 'used', year: '2016', image: '67c2cfe937b617.67546620.png', des: 'A heavy-duty bulldozer known for reliability and ease of maintenance, widely used in large construction and mining applications.', weight: '53,000 lbs' },
+  { id: 94, price: '$92,400.00', name: 'New Holland D180', brand: 'New Holland', categorie: 'Bulldozers', model: 'D180', productcondition: 'used', year: '2021', image: '67c2d684f2b613.29825917.png', des: 'Combines advanced engine technology with a comfortable operator station, providing excellent productivity and operator safety.', weight: '40,500 lbs' },
+  { id: 95, price: '$101,500.00', name: 'Caterpillar D7E', brand: 'Caterpillar', categorie: 'Bulldozers', model: 'D7E', productcondition: 'used', year: '2018', image: '67c2dba56b30e9.58252627.png', des: 'A mid-size bulldozer offering excellent versatility, fuel efficiency, and operator comfort, perfect for medium-scale construction tasks.', weight: '32,000 lbs' },
+  { id: 96, price: '$52,300.00', name: 'JCB 8018 CTS Excavator', brand: 'JCB', categorie: ' Excavators', model: '8018 CTS', productcondition: 'used', year: '2021', image: '67c2ddfe0dd2e7.95293377.png', des: 'A versatile excavator offering robust performance and advanced hydraulic systems, ideal for heavy-duty construction projects.', weight: '36,000 lbs' },
+  { id: 97, price: '$165,000.00', name: 'Kenworth T800 Dump Truck', brand: 'Kenworth', categorie: 'Dump Trucks ', model: 'T800', productcondition: 'used', year: '2019', image: '67c2e20d385872.94202416.png', des: 'A robust dump truck engineered for heavy-duty hauling, featuring a powerful engine and durable chassis for tough terrains.', weight: '50,000 lbs' },
+  { id: 98, price: '$240,000.00', name: 'Tadano ATF 220G', brand: 'Tadano', categorie: 'Crane Trucks', model: 'ATF 220G', productcondition: 'used', year: '2020', image: '67c2e3ff339091.83770227.png', des: 'A high-performance crane truck that combines lifting strength with exceptional stability, ideal for large-scale industrial projects.', weight: '43,000 lbs' },
+  { id: 99, price: '$119,800.00', name: 'CASE 940M Grader', brand: 'CASE', categorie: 'Graders', model: '940M', productcondition: 'used', year: '2019', image: '67c2e525f38432.94144764.png', des: 'A reliable grader designed for precision grading with advanced blade control and fuel-efficient performance, perfect for roadworks.', weight: '32,000 lbs' },
+  { id: 100, price: '$78,500.00', name: 'Ammann ARV 420', brand: 'Ammann', categorie: 'Compactors', model: 'ARV 420', productcondition: 'used', year: '2020', image: '67c2e648198509.13406333.png', des: 'Engineered for optimal compaction efficiency, this vibratory roller delivers consistent performance on both asphalt and soil surfaces.', weight: '26,000 lbs' },
+  { id: 101, price: '$21,000.00', name: 'Crown RC 5140', brand: 'Crown', categorie: 'Forklifts ', model: 'RC 5140', productcondition: 'used', year: '2021', image: '67c2e8feb75fc0.47526637.png', des: 'A high-performance electric forklift offering enhanced energy efficiency, improved maneuverability, and a user-friendly design for indoor operations.', weight: '9,000 lbs' },
+  { id: 102, price: '$107,500.00', name: 'Bobcat S570', brand: 'Bobcat', categorie: 'Wheel Loaders', model: 'S570', productcondition: 'used', year: '2019', image: '67c2eb61479f25.37360183.jpg', des: 'Combining compact design with high breakout force, this wheel loader delivers excellent performance and versatility for material handling tasks.', weight: '36,500 lbs' },
+  { id: 103, price: '$27,500.00', name: 'Takeuchi TL8', brand: 'Takeuchi', categorie: 'Skid-Steer Loaders', model: 'TL8', productcondition: 'used', year: '2020', image: '67c2ef2532db52.75883741.png', des: 'A compact skid-steer loader featuring agile maneuverability and robust hydraulic performance, ideal for various light to medium-duty tasks.', weight: '7,500 lbs' },
+  { id: 105, price: '$66,200.00', name: 'Bobcat BC210', brand: 'Bobcat', categorie: 'Backhoe Loaders', model: 'BC210', productcondition: 'used', year: '2020', image: '67c2f39f8e23f8.47015444.jpg', des: 'A compact backhoe loader that combines versatility and performance, equipped with an efficient engine and user-friendly controls.', weight: '15,000 lbs' },
+  { id: 106, price: '$255,000.00', name: 'Liebherr LTM 1030', brand: 'Liebherr', categorie: 'Crane Trucks', model: 'LTM 1030', productcondition: 'used', year: '2019', image: '67c2f697975a36.25621608.jpeg', des: 'A reliable truck-mounted crane offering advanced hydraulic systems and precise load control. Ideal for heavy lifting and construction projects, it delivers consistent performance and efficiency on the job site.', weight: '42,000 lbs' },
+  { id: 107, price: '$75,000.00', name: 'Caterpillar 420F2', brand: 'Caterpillar', categorie: 'Backhoe Loaders', model: '420F2', productcondition: 'used', year: '2019', image: '67c60e70800627.04803339.png', des: 'Reliable backhoe loader featuring a powerful engine and comfortable operator station, suitable for digging, trenching, and material handling.', weight: '15,500 lbs' },
+  { id: 108, price: '$68,400.00', name: 'John Deere 310SL', brand: 'John Deere', categorie: 'Backhoe Loaders', model: '310SL', productcondition: 'used', year: '2018', image: '67c68e4d3e5301.74323144.jpg', des: 'Efficient loader with strong digging power, intuitive controls, and a durable design that stands up to tough job site conditions.', weight: '14,669 lbs' },
+  { id: 109, price: '$59,200.00', name: 'JCB 3CX', brand: 'JCB', categorie: 'Backhoe Loaders', model: '3CX', productcondition: 'used', year: '2017', image: '67c69b3620e723.06877683.png', des: 'Popular worldwide for its versatility and reliability, offering a balanced combination of digging depth, lifting capacity, and maneuverability.', weight: '14,000 lbs' },
+  { id: 112, price: '$63,000.00', name: 'CASE 580N', brand: 'CASE', categorie: 'Backhoe Loaders', model: '580N', productcondition: 'used', year: '2020', image: '67c6a2fc4f8081.24596242.png', des: 'Built with a powerful FPT engine and ProControl system, delivering precise backhoe control and increased productivity on the job.', weight: '14,250 lbs' },
+  { id: 113, price: '$57,500.00', name: 'New Holland B95C', brand: 'New Holland', categorie: 'Backhoe Loaders', model: 'B95C', productcondition: 'used', year: '2016', image: '67c6a871a4c5b8.27807082.png', des: 'Versatile and efficient backhoe loader with a spacious cab, advanced hydraulic system, and strong breakout force.', weight: '14,713 lbs' },
+  { id: 114, price: '$72,800.00', name: 'Volvo BL70B', brand: 'Volvo', categorie: 'Backhoe Loaders', model: 'BL70B', productcondition: 'used', year: '2021', image: '67c6ad24b34a56.84032548.png', des: 'High-performing loader offering superior stability and smooth operation, ideal for heavy digging and lifting tasks.', weight: '15,430 lbs' },
+  { id: 116, price: '$54,300.00', name: 'TLB840', brand: 'Terex', categorie: 'Backhoe Loaders', model: 'TLB840', productcondition: 'used', year: '2018', image: '67c6b18d8739e6.24765538.png', des: 'A robust backhoe loader designed for efficiency and reliability, featuring a powerful engine and easy maintenance access.', weight: '14,200 lbs' },
+  { id: 118, price: '$28,500.00', name: 'John Deere 50G Mini Excavator', brand: 'John Deere', categorie: ' Excavators', model: '50G', productcondition: 'used', year: '2019', image: '67c6ba330d8b09.85331608.png', des: 'A compact yet powerful mini excavator designed for small to mid-sized projects. Features a fuel-efficient engine and easy maneuverability in tight spaces.', weight: '10,560 lbs' },
+  { id: 119, price: '$45,750.00', name: 'Volvo EC220DL Crawler Excavator', brand: 'Volvo', categorie: ' Excavators', model: 'EC220DL', productcondition: 'used', year: '2018', image: '67c6c1d3689722.34145664.png', des: 'Reliable mid-range crawler excavator with a robust hydraulic system and advanced fuel efficiency technology. Great for large construction and excavation projects.', weight: '50,700 lbs' },
+  { id: 120, price: '$37,900.00', name: 'Bobcat E85 Compact Excavator', brand: 'Bobcat', categorie: ' Excavators', model: 'E85', productcondition: 'used', year: '2021', image: '67c6cc34b3f413.44935870.png', des: 'An 8-ton compact excavator offering increased dig depth and powerful breakout force. Ideal for landscaping, utility work, and site preparation.', weight: '18,960 lbs' },
+  { id: 121, price: '$60,250.00', name: 'Komatsu PC210LC-11 Hydraulic Excavator', brand: 'Komatsu', categorie: ' Excavators', model: 'PC210LC-11', productcondition: 'used', year: '2020', image: '67c6d0fb987a76.47341116.png', des: 'High-performance hydraulic excavator with advanced operating controls and improved fuel economy. Designed for a wide range of earthmoving applications.', weight: '51,397 lbs' },
+  { id: 122, price: '$210,000.00', name: 'Caterpillar 740 GC Articulated Truck', brand: 'Caterpillar', categorie: 'Dump Trucks ', model: '740 GC', productcondition: 'used', year: '2019', image: '67c6de7b7d7ec4.11926324.png', des: 'High-capacity articulated truck designed for large-scale earthmoving and hauling tasks, with reliable performance in challenging terrains.', weight: '70,000 lbs' },
+  { id: 123, price: '$225,500.00', name: 'Volvo A40G Articulated Hauler', brand: 'Volvo', categorie: 'Dump Trucks ', model: 'A40G', productcondition: 'used', year: '2020', image: '67c6e16c1b58d3.89589536.png', des: 'Efficient hauler with advanced drivetrain technology and a comfortable operator cabin, perfect for long-distance hauling.', weight: '66,100 lbs' },
+  { id: 124, price: '$105,600.00', name: 'Sany SAG200', brand: 'Sany', categorie: 'Graders', model: 'SAG200', productcondition: 'used', year: '2021', image: '67c6e734b128c2.89285152.png', des: 'Offers reliable performance and minimal downtime, featuring a strong build and efficient fuel consumption for cost-effective operation.', weight: '30,500 lbs' }
+];
+
+async function populateDatabase() {
+  const client = new MongoClient(MONGODB_URI);
+  
+  try {
+    await client.connect();
+    console.log('Connected to MongoDB');
+    
+    const db = client.db('equipment_rental');
+    
+    await db.collection('admin').deleteMany({});
+    await db.collection('categories').deleteMany({});
+    await db.collection('clients').deleteMany({});
+    await db.collection('history').deleteMany({});
+    await db.collection('products').deleteMany({});
+    
+    await db.collection('admin').insertMany(admins);
+    console.log(`Inserted ${admins.length} admin accounts`);
+    
+    await db.collection('categories').insertMany(categories);
+    console.log(`Inserted ${categories.length} categories`);
+    
+    await db.collection('clients').insertMany(clients);
+    console.log(`Inserted ${clients.length} clients`);
+    
+    await db.collection('history').insertMany(history);
+    console.log(`Inserted ${history.length} rental history records`);
+    
+    await db.collection('products').insertMany(products);
+    console.log(`Inserted ${products.length} products`);
+    
+    console.log('\n✅ Database population complete!');
+    console.log('Summary:');
+    console.log(`- Admins: ${admins.length}`);
+    console.log(`- Categories: ${categories.length}`);
+    console.log(`- Clients: ${clients.length}`);
+    console.log(`- Rental History: ${history.length}`);
+    console.log(`- Products: ${products.length}`);
+    
+  } catch (error) {
+    console.error('Error populating database:', error);
+    throw error;
+  } finally {
+    await client.close();
+  }
+}
+
+populateDatabase();
