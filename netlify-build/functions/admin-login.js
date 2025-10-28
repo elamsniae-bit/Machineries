@@ -30,7 +30,20 @@ exports.handler = async (event, context) => {
       };
     }
 
-    const isValid = await bcrypt.compare(password, admin.password);
+    // Check password - support both plain text (like original PHP) and hashed passwords
+    let isValid = false;
+    
+    // First try plain text comparison (original PHP behavior)
+    if (password === admin.password) {
+      isValid = true;
+    } else {
+      // Try bcrypt comparison for hashed passwords
+      try {
+        isValid = await bcrypt.compare(password, admin.password);
+      } catch (e) {
+        isValid = false;
+      }
+    }
     
     if (!isValid) {
       return {
