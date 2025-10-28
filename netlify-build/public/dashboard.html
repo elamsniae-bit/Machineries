@@ -1094,7 +1094,7 @@
         <body
                 class="envato_tk_templates-template envato_tk_templates-template-elementor_header_footer single single-envato_tk_templates postid-906 elementor-default elementor-template-full-width elementor-kit-3 elementor-page elementor-page-906"
         >
-                <?php include('components/nav.php') ?>
+                <div id="navbar-container"></div>
 
                 <iframe
                         src="./app/dashboard/index.php"
@@ -1109,7 +1109,8 @@
                         id="myIframe"
                 ></iframe>
 
-                <?php include('components/footer.php') ?>
+                <div id="footer-container"></div>
+                <script src="/js/load-components.js"></script>
                 <script type="text/javascript">
                         const lazyloadRunObserver = () => {
                                 const lazyloadBackgrounds =
