@@ -22,13 +22,13 @@ args = "Netlify Dev Server"
 name = "Netlify Dev Server"
 author = "agent"
 
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd netlify-build && npx netlify dev"
-waitForPort = 5000
-
 [workflows.workflow.metadata]
 outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd netlify-build && npm run dev"
+waitForPort = 5000
 
 [[ports]]
 localPort = 3999
@@ -38,10 +38,6 @@ exposeLocalhost = true
 [[ports]]
 localPort = 5000
 externalPort = 80
-
-[[ports]]
-localPort = 34635
-externalPort = 8008
 
 [[ports]]
 localPort = 35155
@@ -94,6 +90,10 @@ externalPort = 5173
 [[ports]]
 localPort = 43831
 externalPort = 4200
+
+[[ports]]
+localPort = 45971
+externalPort = 8008
 
 [deployment]
 deploymentTarget = "vm"
