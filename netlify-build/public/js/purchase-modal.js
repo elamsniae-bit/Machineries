@@ -41,15 +41,20 @@
         const whatsappBtn = document.getElementById('purchase-whatsapp');
         const emailBtn = document.getElementById('purchase-email');
         
-        // Update WhatsApp link (placeholder for now - user will update)
+        // Update WhatsApp link - REPLACE THE PHONE NUMBER BELOW WITH YOUR ACTUAL WHATSAPP NUMBER
+        // Format: Country code + phone number (no spaces, no +)
+        // Example: For +1 (406) 505-9795, use: 14065059795
+        const whatsappPhone = '14065059795'; // REPLACE THIS WITH YOUR WHATSAPP NUMBER
         const whatsappMessage = encodeURIComponent(`Hi! I'm interested in renting/purchasing: ${productName}`);
-        whatsappBtn.href = `#`; // Placeholder - will be updated to actual WhatsApp link
+        whatsappBtn.href = `https://wa.me/${whatsappPhone}?text=${whatsappMessage}`;
+        whatsappBtn.setAttribute('target', '_blank');
         whatsappBtn.setAttribute('data-product', productName);
         
-        // Update Email link (placeholder for now - user will update)
+        // Update Email link - REPLACE THE EMAIL BELOW WITH YOUR ACTUAL EMAIL ADDRESS
+        const contactEmail = 'support@heavyquips.com'; // REPLACE THIS WITH YOUR EMAIL
         const emailSubject = encodeURIComponent(`Inquiry about ${productName}`);
         const emailBody = encodeURIComponent(`Hi,\n\nI'm interested in renting/purchasing: ${productName}\n\nProduct ID: ${productId}\n\nPlease provide me with more information about availability and pricing.\n\nThank you!`);
-        emailBtn.href = `#`; // Placeholder - will be updated to actual email
+        emailBtn.href = `mailto:${contactEmail}?subject=${emailSubject}&body=${emailBody}`;
         emailBtn.setAttribute('data-subject', emailSubject);
         emailBtn.setAttribute('data-body', emailBody);
         

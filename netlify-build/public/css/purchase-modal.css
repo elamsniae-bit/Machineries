@@ -1,0 +1,138 @@
+/* Purchase Modal Styles */
+
+.purchase-modal {
+    display: none;
+    position: fixed;
+    z-index: 99999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.purchase-modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.purchase-modal-close {
+    color: #aaa;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.purchase-modal-close:hover,
+.purchase-modal-close:focus {
+    color: #000;
+}
+
+.purchase-modal h2 {
+    margin-top: 0;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.purchase-modal-options {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.purchase-option-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 15px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    text-align: center;
+}
+
+.purchase-option-btn svg {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 10px;
+    fill: currentColor;
+}
+
+.purchase-option-btn.whatsapp {
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+}
+
+.purchase-option-btn.whatsapp:hover {
+    background: linear-gradient(135deg, #1fb855 0%, #0d7a6f 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+}
+
+.purchase-option-btn.email {
+    background: linear-gradient(135deg, #ff8d2a 0%, #e67a1a 100%);
+}
+
+.purchase-option-btn.email:hover {
+    background: linear-gradient(135deg, #e67a1a 0%, #cc6a10 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 141, 42, 0.4);
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+    .purchase-modal-content {
+        width: 95%;
+        margin: 20% auto;
+        padding: 20px;
+    }
+    
+    .purchase-modal-options {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .purchase-option-btn {
+        width: 100%;
+    }
+    
+    .purchase-modal h2 {
+        font-size: 20px;
+    }
+}
