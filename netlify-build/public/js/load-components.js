@@ -28,10 +28,12 @@
     // Load components when DOM is ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function() {
+            loadComponent('topbar-container', '/components/topbar.html');
             loadComponent('navbar-container', '/components/navbar.html');
             loadComponent('footer-container', '/components/footer.html');
         });
     } else {
+        loadComponent('topbar-container', '/components/topbar.html');
         loadComponent('navbar-container', '/components/navbar.html');
         loadComponent('footer-container', '/components/footer.html');
     }

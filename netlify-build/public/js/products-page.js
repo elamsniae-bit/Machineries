@@ -35,8 +35,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <p style="color: ${product.available ? 'green' : 'red'};">
                         ${product.available ? 'Available' : 'Unavailable'}
                     </p>
+                    <button onclick="showPurchaseModal('${product.name.replace(/'/g, "\\'")}', '${product._id}')" 
+                       style="display: block; width: 100%; text-align: center; padding: 12px; background: #ff8d2a; color: white; border: none; border-radius: 5px; margin-top: 10px; cursor: pointer; font-size: 16px;">
+                        Purchase / Rent
+                    </button>
                     <a href="/view-product.html?id=${product._id}" 
-                       style="display: block; text-align: center; padding: 12px; background: #ff8d2a; color: white; text-decoration: none; border-radius: 5px; margin-top: 10px;">
+                       style="display: block; text-align: center; padding: 12px; background: #333; color: white; text-decoration: none; border-radius: 5px; margin-top: 10px;">
                         View Details
                     </a>
                 </div>

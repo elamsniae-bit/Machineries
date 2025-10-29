@@ -150,7 +150,7 @@
                 dropdown.innerHTML = categories.map(cat => {
                     const encodedName = btoa(cat.name);
                     return `<li id="menu-item-cat" class="menu-item menu-item-type-custom menu-item-object-custom nav-item elementskit-mobile-builder-content" data-vertical-menu="750px">
-                        <a href="/products.html?category=${encodedName}" style="color:rgb(239, 141, 42)" class="dropdown-item">${cat.name}</a>
+                        <a href="/products.html?categories=${encodedName}" style="color:rgb(239, 141, 42)" class="dropdown-item">${cat.name}</a>
                     </li>`;
                 }).join('');
             } else if (dropdown) {
