@@ -1,5 +1,47 @@
 /* Custom Styles for Heavy Equipment Rental Application */
 
+/* Prevent Horizontal Scrolling */
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Ensure all containers respect viewport width */
+.elementor-element,
+.elementor-section,
+.elementor-container,
+.e-con,
+.e-con-inner {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* Ensure all images and media respect container width */
+img, video, iframe, embed, object {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Fix wide tables */
+table {
+    max-width: 100%;
+    overflow-x: auto;
+    display: block;
+}
+
+/* Ensure text doesn't cause overflow */
+* {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Fix Elementor widgets */
+.elementor-widget-container {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 /* Sticky Navbar - Only the navbar, not the topbar */
 #navbar-container {
     position: sticky;
