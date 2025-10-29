@@ -243,15 +243,52 @@ Update navigation menu items (Lines ~87-100):
 2. Follow the same structure as existing menu items
 3. Update the link href to your desired page
 
-## 🗃️ Database Content (MongoDB)
+## 🗃️ Database Content & Product Management (MongoDB)
 
-### Adding/Editing Categories
+**Since the admin UI is not yet available, here's how to manage products and categories directly:**
 
-**Method 1: Using MongoDB Directly**
-1. Connect to your MongoDB Atlas database
-2. Navigate to the `equipment_rental` database
-3. Edit the `categories` collection
-4. Add/edit category documents with structure:
+---
+
+### 📂 **WHERE TO MANAGE PRODUCTS & CATEGORIES**
+
+#### **Option 1: MongoDB Atlas Web Interface** (Recommended)
+This is the easiest way to add, edit, delete, and manage products/categories without code.
+
+**Steps:**
+1. Go to [MongoDB Atlas](https://cloud.mongodb.com/)
+2. Log in with your MongoDB account
+3. Select your cluster
+4. Click **"Browse Collections"**
+5. Select database: `equipment_rental`
+6. You'll see these collections:
+   - **categories** - Product categories
+   - **products** - All products
+   - **users** - Customer accounts
+   - **contacts** - Contact form submissions
+   - **rentals** - Rental requests
+
+#### **Option 2: MongoDB Connection String Setup**
+First, you need to set up your MongoDB connection in the `.env` file:
+
+**File Location:** `netlify-build/.env`
+
+```env
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/equipment_rental
+```
+
+**How to get your connection string:**
+1. Go to MongoDB Atlas
+2. Click "Connect" on your cluster
+3. Choose "Connect your application"
+4. Copy the connection string
+5. Replace `<password>` with your actual database password
+6. Make sure the database name is `equipment_rental`
+
+---
+
+### 📋 **MANAGING CATEGORIES**
+
+#### **Category Structure:**
 ```json
 {
   "id": 24,
@@ -259,41 +296,292 @@ Update navigation menu items (Lines ~87-100):
 }
 ```
 
-**Method 2: Using Admin Panel** (Coming soon - after admin migration)
+#### **How to Add a New Category (MongoDB Atlas):**
+1. Open MongoDB Atlas → Browse Collections
+2. Select `equipment_rental` database → `categories` collection
+3. Click **"INSERT DOCUMENT"**
+4. Add the following JSON:
+```json
+{
+  "id": 24,
+  "name": "Excavator Attachments"
+}
+```
+5. Click **"Insert"**
 
-### Adding/Editing Products
+**Important Notes:**
+- The `id` must be unique (use the next available number)
+- The `name` is case-sensitive
+- No extra spaces before or after the name
 
-**Product Structure in MongoDB:**
+#### **How to Edit a Category:**
+1. Find the category in MongoDB Atlas
+2. Click the **pencil icon** (Edit)
+3. Modify the `name` field
+4. Click **"Update"**
+
+#### **How to Delete a Category:**
+1. Find the category in MongoDB Atlas
+2. Click the **trash icon** (Delete)
+3. Confirm deletion
+⚠️ **Warning:** Deleting a category won't delete products, but those products won't show under any category
+
+---
+
+### 🛒 **MANAGING PRODUCTS**
+
+#### **Complete Product Structure:**
 ```json
 {
   "id": 135,
   "price": "$599.99",
-  "name": "Product Name",
-  "brand": "Brand Name",
-  "categorie": "Category Name",
-  "model": "Model-Number",
-  "status": "new" or "used",
-  "year": "2024",
-  "image": "filename.jpg",
-  "description": "Product description text...",
-  "weight": "15.0 lbs"
+  "name": "Caterpillar 320 Excavator",
+  "brand": "Caterpillar",
+  "categorie": "Excavators",
+  "model": "320D",
+  "productcondition": "used",
+  "year": "2022",
+  "image": "excavator-320.jpg",
+  "des": "Powerful hydraulic excavator perfect for heavy-duty digging and earthmoving tasks. Features advanced fuel efficiency and operator comfort.",
+  "weight": "50,000 lbs"
 }
 ```
 
-**To add a product:**
-1. Upload product image to `netlify-build/public/upload/`
-2. Add product document to MongoDB `products` collection
-3. Make sure `categorie` field matches a category name exactly (case-sensitive!)
+**Field Descriptions:**
+- `id` - Unique product ID (number, e.g., 135)
+- `price` - Price with currency symbol (string, e.g., "$599.99")
+- `name` - Product name (string)
+- `brand` - Manufacturer brand (string, e.g., "Caterpillar", "John Deere")
+- `categorie` - **MUST match a category name EXACTLY** (case-sensitive!)
+- `model` - Product model number (string)
+- `productcondition` - Either "new" or "used" (lowercase)
+- `year` - Manufacturing year (string, e.g., "2022")
+- `image` - Image filename (must exist in `/upload/` folder)
+- `des` - Product description (string, can be long)
+- `weight` - Product weight with unit (string, e.g., "50,000 lbs")
 
-### Troubleshooting Category/Product Matching
+---
 
-If products don't show for a category, run the database fix script:
+### ➕ **HOW TO ADD A NEW PRODUCT**
+
+#### **Step 1: Upload Product Image**
+1. Navigate to: `netlify-build/public/upload/`
+2. Copy your product image to this folder
+3. Name it something simple, like: `excavator-320.jpg`
+4. Remember this filename - you'll need it in Step 2
+
+**Supported image formats:** `.jpg`, `.jpeg`, `.png`, `.webp`
+
+#### **Step 2: Add Product to MongoDB**
+1. Open MongoDB Atlas → Browse Collections
+2. Select `equipment_rental` database → `products` collection
+3. Click **"INSERT DOCUMENT"**
+4. Copy this template and modify it:
+
+```json
+{
+  "id": 136,
+  "price": "$75,000.00",
+  "name": "Caterpillar 320 Excavator",
+  "brand": "Caterpillar",
+  "categorie": "Excavators",
+  "model": "320D",
+  "productcondition": "used",
+  "year": "2022",
+  "image": "excavator-320.jpg",
+  "des": "Powerful 20-ton hydraulic excavator with advanced fuel efficiency. Perfect for construction sites, earthmoving, and heavy excavation work.",
+  "weight": "50,000 lbs"
+}
+```
+
+5. **Important: Update these fields:**
+   - `id` - Use the next available ID number
+   - `price`, `name`, `brand`, `categorie`, `model`, etc.
+   - `image` - **Must match the filename you uploaded in Step 1**
+   - `categorie` - **Must match an existing category name EXACTLY**
+
+6. Click **"Insert"**
+
+---
+
+### ✏️ **HOW TO EDIT AN EXISTING PRODUCT**
+
+#### **Option 1: MongoDB Atlas (Easiest)**
+1. Open MongoDB Atlas → Browse Collections
+2. Select `equipment_rental` database → `products` collection
+3. Find your product (use the search/filter at the top)
+4. Click the **pencil icon** (Edit Document)
+5. Modify any field (price, name, description, image, etc.)
+6. Click **"Update"**
+
+#### **Option 2: Change Product Image**
+If you just want to update the image:
+1. Upload the new image to `netlify-build/public/upload/`
+2. In MongoDB Atlas, edit the product
+3. Update the `image` field to the new filename
+4. Click **"Update"**
+
+---
+
+### 🗑️ **HOW TO DELETE A PRODUCT**
+
+#### **Using MongoDB Atlas:**
+1. Open MongoDB Atlas → Browse Collections
+2. Select `equipment_rental` database → `products` collection
+3. Find the product you want to delete
+4. Click the **trash icon** (Delete Document)
+5. Confirm deletion
+
+**Note:** This only removes the product from the database. The image file will still remain in the upload folder.
+
+---
+
+### 🖼️ **MANAGING PRODUCT IMAGES**
+
+#### **Where Product Images Are Stored:**
+**Directory:** `netlify-build/public/upload/`
+
+#### **How to Upload New Images:**
+1. Navigate to `netlify-build/public/upload/`
+2. Copy or upload your image files here
+3. Use simple, descriptive filenames:
+   - ✅ Good: `excavator-320.jpg`, `bulldozer-d6.png`
+   - ❌ Avoid: `IMG_12345.jpg`, `photo (1).png`
+
+#### **Supported Formats:**
+- `.jpg` / `.jpeg`
+- `.png`
+- `.webp`
+
+#### **How to Replace an Image:**
+**Option A: Keep the same filename (Easiest)**
+1. Delete the old image from `netlify-build/public/upload/`
+2. Upload the new image with the **exact same filename**
+3. Refresh the website - the new image will appear
+
+**Option B: Use a new filename**
+1. Upload the new image to `netlify-build/public/upload/`
+2. Open MongoDB Atlas → `products` collection
+3. Find the product
+4. Edit the `image` field to the new filename
+5. Click **"Update"**
+
+#### **Image Optimization Tips:**
+- Recommended size: 800x600 pixels
+- Keep file size under 500KB for faster loading
+- Use `.jpg` for photos, `.png` for graphics with transparency
+
+---
+
+### 🔧 **TROUBLESHOOTING COMMON ISSUES**
+
+#### **Problem: Products not showing in a category**
+**Solution:**
+1. Check that the `categorie` field matches the category name **exactly** (case-sensitive)
+2. Example: "Excavators" ≠ "excavators" ≠ "Excavator"
+3. Run the database fix script:
 ```bash
 cd netlify-build
 node scripts/fix-database.js
 ```
 
-This will trim whitespace and verify category/product matching.
+#### **Problem: Product image not loading**
+**Solutions:**
+1. Verify the image file exists in `netlify-build/public/upload/`
+2. Check that the `image` field in MongoDB matches the filename exactly
+3. Make sure the image format is supported (`.jpg`, `.png`, `.webp`)
+4. Try opening the image directly: `http://localhost:5000/upload/your-image.jpg`
+
+#### **Problem: Category not appearing in navbar dropdown**
+**Solution:**
+1. Check that the category exists in the `categories` collection
+2. Verify the category name has no extra spaces
+3. Restart the Netlify Dev Server
+
+---
+
+### 📊 **CURRENT DATABASE SUMMARY**
+
+**Database Name:** `equipment_rental`
+
+**Collections:**
+- `categories` - 11 equipment categories
+- `products` - 88 products across all categories
+- `users` - Customer and admin accounts
+- `contacts` - Contact form submissions
+- `rentals` - Equipment rental requests
+
+**Existing Categories (11 total):**
+1. Excavators (6 products)
+2. Bulldozers (6 products)
+3. Wheel Loaders (6 products)
+4. Backhoe Loaders (6 products)
+5. Skid Steer Loaders (6 products)
+6. Motor Graders (6 products)
+7. Dump Trucks (6 products)
+8. Concrete Mixers (6 products)
+9. Cranes (6 products)
+10. Forklifts (6 products)
+11. Chainsaw (28 products)
+
+---
+
+### ⚙️ **ALTERNATIVE: Using Database Scripts**
+
+If you prefer using scripts instead of MongoDB Atlas:
+
+#### **Add Multiple Products at Once:**
+1. Edit: `netlify-build/populate-database.js`
+2. Add your products to the `products` array
+3. Run: `cd netlify-build && node populate-database.js`
+
+#### **Fix Database Issues:**
+```bash
+cd netlify-build
+node scripts/fix-database.js
+```
+
+This script will:
+- Trim whitespace from category names
+- Verify product/category matching
+- Add any missing products
+
+---
+
+### 🎯 **QUICK REFERENCE TABLE**
+
+| Task | File/Location | Method |
+|------|---------------|--------|
+| **Add MongoDB Connection** | `netlify-build/.env` | Edit `.env` file, add `MONGODB_URI` |
+| **Add/Edit Categories** | MongoDB Atlas | Browse Collections → `categories` |
+| **Add/Edit Products** | MongoDB Atlas | Browse Collections → `products` |
+| **Upload Product Images** | `netlify-build/public/upload/` | Copy files to this folder |
+| **View All Products** | MongoDB Atlas | Database: `equipment_rental` → Collection: `products` |
+| **Delete Products** | MongoDB Atlas | Find product → Click trash icon |
+| **Fix Database Issues** | Terminal | `cd netlify-build && node scripts/fix-database.js` |
+
+---
+
+### ⚠️ **IMPORTANT REMINDERS**
+
+1. **Always match category names exactly** - "Chainsaw" ≠ "chainsaw"
+2. **Image filenames are case-sensitive** - "Image.jpg" ≠ "image.jpg"
+3. **Upload images BEFORE adding products** - Otherwise broken image links
+4. **Use unique product IDs** - Don't reuse existing IDs
+5. **Restart the server after database changes** - To see updates immediately
+
+---
+
+### 🚀 **FUTURE: Admin UI**
+
+Once the admin panel is fully migrated, you'll be able to:
+- Add/Edit/Delete products through a web interface
+- Upload images directly through the admin panel
+- Manage categories visually
+- View rental requests and approve them
+- Manage users and permissions
+
+**Admin Panel Location:** `/admin/dashboard.html` (after migration)
 
 ## 📝 Contact Page
 
