@@ -1302,7 +1302,7 @@
 
                 // Load products
                 try {
-                        const response = await fetch('/.netlify/functions/get-products' + (category ? `?category=${encodeURIComponent(category)}` : ''));
+                        const response = await fetch('/.netlify/functions/get-products' + (categoryEncoded ? `?category=${categoryEncoded}` : ''));
                         const products = await response.json();
                         
                         const productsContainer = document.getElementById('product-grid');
@@ -1312,30 +1312,30 @@
                                         <div class="product-item">
                                                 <div class="elementor-element elementor-element-0ecd35b elementor-widget elementor-widget-image" data-id="0ecd35b" data-element_type="widget" data-widget_type="image.default">
                                                         <div class="elementor-widget-container">
-                                                                <img fetchpriority="high" decoding="async" width="650" height="493" src="${product.image || '/wp-content/uploads/sites/20/2024/08/default-product.jpg'}" class="attachment-full size-full wp-image-149" alt="${product.name}" />
+                                                                <img fetchpriority="high" decoding="async" width="650" height="493" src="/upload/${product.image}" class="attachment-full size-full wp-image-149" alt="${product.name}" />
                                                         </div>
                                                 </div>
                                                 <div class="elementor-element elementor-element-e036271 elementor-widget elementor-widget-heading" data-id="e036271" data-element_type="widget" data-widget_type="heading.default">
                                                         <div class="elementor-widget-container">
-                                                                <a href="/view-product.html?id=${product._id}">
+                                                                <a href="/view-product.html?id=${btoa(product.id)}&product_cat=${categoryEncoded || ''}">
                                                                         <h4 class="elementor-heading-title elementor-size-default">${product.name}</h4>
                                                                 </a>
                                                         </div>
                                                 </div>
                                                 <div class="elementor-element elementor-element-d012478 elementor-widget elementor-widget-text-editor" data-id="d012478" data-element_type="widget" data-widget_type="text-editor.default">
                                                         <div class="elementor-widget-container">
-                                                                <p>${product.description || product.des || ''}</p>
+                                                                <p>${product.des || ''}</p>
                                                         </div>
                                                 </div>
                                                 <div class="elementor-element elementor-element-8a51bdc elementor-widget elementor-widget-heading" data-id="8a51bdc" data-element_type="widget" data-widget_type="heading.default">
                                                         <div class="elementor-widget-container">
-                                                                <h4 class="elementor-heading-title elementor-size-default">$${product.price}/day</h4>
+                                                                <h4 class="elementor-heading-title elementor-size-default">${product.price}</h4>
                                                         </div>
                                                 </div>
                                                 <div class="elementor-element elementor-element-24f2386 elementor-align-justify elementor-widget elementor-widget-button" data-id="24f2386" data-element_type="widget" data-widget_type="button.default">
                                                         <div class="elementor-widget-container">
                                                                 <div class="elementor-button-wrapper">
-                                                                        <a class="elementor-button elementor-button-link elementor-size-sm elementor-animation-float" href="/view-product.html?id=${product._id}">
+                                                                        <a class="elementor-button elementor-button-link elementor-size-sm elementor-animation-float" href="?categories=${categoryEncoded || ''}&product=${btoa(product.id)}">
                                                                                 <span class="elementor-button-content-wrapper">
                                                                                         <span class="elementor-button-text">Purchase</span>
                                                                                 </span>
