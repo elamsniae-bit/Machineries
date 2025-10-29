@@ -1,16 +1,5 @@
 /* Custom Styles for Heavy Equipment Rental Application */
 
-/* Page Width Fix - Match PHP Project Layout */
-body {
-    max-width: 100%;
-    overflow-x: hidden;
-}
-
-.elementor-element.e-con-boxed > .e-con-inner {
-    max-width: 1320px;
-    margin: 0 auto;
-}
-
 /* Sticky Navbar - Only the navbar, not the topbar */
 #navbar-container {
     position: sticky;
@@ -18,17 +7,6 @@ body {
     z-index: 1000;
     background: white;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-/* Topbar remains static (not sticky) */
-#topbar-container {
-    position: static;
-    z-index: 999;
-}
-
-/* Ensure proper spacing below sticky navbar */
-body {
-    padding-top: 0;
 }
 
 /* Purchase Modal Styles */
