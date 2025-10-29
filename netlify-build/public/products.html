@@ -1338,7 +1338,7 @@
                                                 <div class="elementor-element elementor-element-24f2386 elementor-align-justify elementor-widget elementor-widget-button" data-id="24f2386" data-element_type="widget" data-widget_type="button.default">
                                                         <div class="elementor-widget-container">
                                                                 <div class="elementor-button-wrapper">
-                                                                        <a class="elementor-button elementor-button-link elementor-size-sm elementor-animation-float" href="?categories=${categoryEncoded || ''}&product=${btoa(product.id)}">
+                                                                        <a class="elementor-button elementor-button-link elementor-size-sm elementor-animation-float" href="#" onclick="event.preventDefault(); showPurchaseModal('${product.name.replace(/'/g, "\\'")}', '${product.id}'); return false;">
                                                                                 <span class="elementor-button-content-wrapper">
                                                                                         <span class="elementor-button-text">Purchase</span>
                                                                                 </span>

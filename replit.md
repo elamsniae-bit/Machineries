@@ -100,6 +100,12 @@ The server is configured to run automatically via Replit workflows and serves on
 ## Recent Changes
 
 ### October 29, 2025
+- ✅ **Added Purchase button contact modal:**
+  - Replaced page-reload behavior with popup modal
+  - Modal shows WhatsApp and Email contact options
+  - WhatsApp pre-fills message with product name
+  - Email pre-fills subject and body with product details
+  - Beautiful responsive design with animations
 - ✅ **Fixed Chainsaw category completely:**
   - Configured MongoDB Atlas connection (MONGODB_URI)
   - Copied all 8 Chainsaw product images to correct location
