@@ -34,28 +34,24 @@ This is a **Node.js/MongoDB-based** heavy equipment rental and management system
 
 ## Database Setup
 The application uses MongoDB Atlas for data storage. The database contains:
-- **categories** - 15 equipment categories
-- **products** - 150 products (10 per category)
+- **categories** - 11 equipment categories
+- **products** - 88 products (varying per category)
 - **users** - Customer and admin accounts
 - **contacts** - Contact form submissions
 - **rentals** - Equipment rental requests
 
-### Categories (15 Total)
-1. Excavators
-2. Bulldozers
-3. Wheel Loaders
-4. Backhoe Loaders
-5. Skid Steer Loaders
-6. Motor Graders
-7. Dump Trucks
-8. Concrete Mixers
-9. Cranes
-10. Forklifts
-11. Compactors
-12. Trenchers
-13. Pavers
-14. Scrapers
-15. Telehandlers
+### Categories (11 Total)
+1. Excavators (6 products)
+2. Bulldozers (6 products)
+3. Wheel Loaders (6 products)
+4. Backhoe Loaders (6 products)
+5. Skid Steer Loaders (6 products)
+6. Motor Graders (6 products)
+7. Dump Trucks (6 products)
+8. Concrete Mixers (6 products)
+9. Cranes (6 products)
+10. Forklifts (6 products)
+11. Chainsaw (28 products)
 
 ### Default Admin Credentials
 - **Username**: admin
@@ -101,11 +97,33 @@ The server is configured to run automatically via Replit workflows and serves on
 - **Admin Dashboard**: `/admin/dashboard.html`
 - **User Dashboard**: `/dashboard.html`
 
-## Recent Changes (October 26, 2025)
+## Recent Changes
+
+### October 29, 2025
+- ✅ **Fixed critical database issues:**
+  - Trimmed whitespace from category names (resolved product/category matching)
+  - Added 9 missing Chainsaw products to match original SQL database
+  - Database now has 88 products across 11 categories (matching PHP original)
+- ✅ **Fixed Netlify routing configuration:**
+  - Removed problematic catch-all redirect that was breaking multi-page navigation
+  - Products, contact, and other pages now load correctly
+- ✅ **Fixed horizontal scrolling/overflow:**
+  - Added comprehensive CSS to prevent horizontal scrolling on all pages
+  - Fixed Elementor container overflow issues
+- ✅ **Massively expanded CUSTOMIZATION-GUIDE.md:**
+  - Homepage content, navigation, footer customization
+  - Database updates, API configuration, deployment instructions
+  - Complete directory structure and common mistakes guide
+- ✅ **Created comprehensive ADMIN-MIGRATION-PLAN.md:**
+  - Detailed analysis of PHP admin section
+  - Phased migration strategy (dashboard, products, categories, rentals)
+  - Complete task breakdown for admin feature implementation
+
+### October 26, 2025
 - ✅ **Complete migration from PHP to Node.js/Netlify**
-- ✅ Populated MongoDB with **15 categories** and **150 products**
+- ✅ Populated MongoDB with **11 categories** and **88 products**
 - ✅ Created working contact page with API integration
-- ✅ Fixed navbar to display all 15 product categories
+- ✅ Fixed navbar to display all product categories dynamically
 - ✅ All API endpoints working (13 serverless functions)
 - ✅ Created comprehensive GitHub to Netlify deployment guide
 - ✅ Set up proper .gitignore for GitHub deployment
