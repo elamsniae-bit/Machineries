@@ -1,9 +1,9 @@
 // Purchase Modal Component
-(function() {
+(function () {
     // Create modal HTML if it doesn't exist
     function createModal() {
-        if (document.getElementById('purchase-modal')) return;
-        
+        if (document.getElementById("purchase-modal")) return;
+
         const modalHTML = `
             <div id="purchase-modal" class="purchase-modal">
                 <div class="purchase-modal-content">
@@ -30,53 +30,57 @@
                 </div>
             </div>
         `;
-        
-        document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+        document.body.insertAdjacentHTML("beforeend", modalHTML);
     }
-    
+
     // Show modal function
-    window.showPurchaseModal = function(productName, productId) {
+    window.showPurchaseModal = function (productName, productId) {
         createModal();
-        const modal = document.getElementById('purchase-modal');
-        const whatsappBtn = document.getElementById('purchase-whatsapp');
-        const emailBtn = document.getElementById('purchase-email');
-        
+        const modal = document.getElementById("purchase-modal");
+        const whatsappBtn = document.getElementById("purchase-whatsapp");
+        const emailBtn = document.getElementById("purchase-email");
+
         // Update WhatsApp link - REPLACE THE PHONE NUMBER BELOW WITH YOUR ACTUAL WHATSAPP NUMBER
         // Format: Country code + phone number (no spaces, no +)
         // Example: For +1 (406) 505-9795, use: 14065059795
-        const whatsappPhone = '14065059795'; // REPLACE THIS WITH YOUR WHATSAPP NUMBER
-        const whatsappMessage = encodeURIComponent(`Hi! I'm interested in renting/purchasing: ${productName}`);
+        const whatsappPhone = "14012562999"; // REPLACE THIS WITH YOUR WHATSAPP NUMBER
+        const whatsappMessage = encodeURIComponent(
+            `Hi! I'm interested in renting/purchasing: ${productName}`,
+        );
         whatsappBtn.href = `https://wa.me/${whatsappPhone}?text=${whatsappMessage}`;
-        whatsappBtn.setAttribute('target', '_blank');
-        whatsappBtn.setAttribute('data-product', productName);
-        
+        whatsappBtn.setAttribute("target", "_blank");
+        whatsappBtn.setAttribute("data-product", productName);
+
         // Update Email link - REPLACE THE EMAIL BELOW WITH YOUR ACTUAL EMAIL ADDRESS
-        const contactEmail = 'support@heavyquips.com'; // REPLACE THIS WITH YOUR EMAIL
+        const contactEmail = "elamsniae@gmail.com"; // REPLACE THIS WITH YOUR EMAIL
         const emailSubject = encodeURIComponent(`Inquiry about ${productName}`);
-        const emailBody = encodeURIComponent(`Hi,\n\nI'm interested in renting/purchasing: ${productName}\n\nProduct ID: ${productId}\n\nPlease provide me with more information about availability and pricing.\n\nThank you!`);
+        const emailBody = encodeURIComponent(
+            `Hi,\n\nI'm interested in renting/purchasing: ${productName}\n\nProduct ID: ${productId}\n\nPlease provide me with more information about availability and pricing.\n\nThank you!`,
+        );
         emailBtn.href = `mailto:${contactEmail}?subject=${emailSubject}&body=${emailBody}`;
-        emailBtn.setAttribute('data-subject', emailSubject);
-        emailBtn.setAttribute('data-body', emailBody);
-        
-        modal.style.display = 'block';
-        
+        emailBtn.setAttribute("data-subject", emailSubject);
+        emailBtn.setAttribute("data-body", emailBody);
+
+        modal.style.display = "block";
+
         // Close modal when clicking X
-        const closeBtn = modal.querySelector('.purchase-modal-close');
-        closeBtn.onclick = function() {
-            modal.style.display = 'none';
+        const closeBtn = modal.querySelector(".purchase-modal-close");
+        closeBtn.onclick = function () {
+            modal.style.display = "none";
         };
-        
+
         // Close modal when clicking outside
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             if (event.target == modal) {
-                modal.style.display = 'none';
+                modal.style.display = "none";
             }
         };
     };
-    
+
     // Initialize modal on page load
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', createModal);
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", createModal);
     } else {
         createModal();
     }
