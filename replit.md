@@ -99,6 +99,19 @@ The server is configured to run automatically via Replit workflows and serves on
 
 ## Recent Changes
 
+### October 30, 2025
+- ✅ **Updated navbar "Account" button to "Marketplace":**
+  - Changed button text from "Account" to "Marketplace"
+  - Updated link to point to products.html instead of dynamic login/dashboard
+  - Button now always visible and directs users to the product marketplace
+  - Removed dynamic JavaScript that changed button based on login state
+- ✅ **Integrated Getform.io for contact form submissions:**
+  - Replaced complex WordPress MetForm with clean HTML form
+  - Form now submits directly to Getform.io endpoint
+  - Removed all WordPress dependencies and JavaScript validation
+  - Form includes fields: name, email, telephone, subject, message
+  - Much simpler and more reliable than previous implementation
+
 ### October 29, 2025
 - ✅ **Added Purchase button contact modal:**
   - Replaced page-reload behavior with popup modal
