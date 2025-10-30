@@ -363,7 +363,7 @@
                                                                 <a
                                                                         id="nav-account-button"
                                                                         class="elementor-button elementor-button-link elementor-size-sm"
-                                                                        href="/contact.html"
+                                                                        href="/products.html"
                                                                 >
                                                                         <span
                                                                                 class="elementor-button-content-wrapper"
@@ -385,9 +385,7 @@
                                                                                 <span
                                                                                         id="nav-account-button-text"
                                                                                         class="elementor-button-text"
-                                                                                        >Book
-                                                                                        an
-                                                                                        appointment</span
+                                                                                        >Marketplace</span
                                                                                 >
                                                                         </span>
                                                                 </a>
@@ -450,37 +448,21 @@
                         const dashboardMenuItem = document.getElementById(
                                 "menu-item-dashboard",
                         );
-                        const accountButton =
-                                document.getElementById("nav-account-button");
-                        const accountButtonText = document.getElementById(
-                                "nav-account-button-text",
-                        );
+                        
+                        // Note: Account button (now "Marketplace") is static and always links to products.html
+                        // It no longer changes based on login state
 
                         if (token && user) {
-                                // User is logged in
+                                // User is logged in - show dashboard menu item
                                 if (dashboardMenuItem) {
                                         dashboardMenuItem.style.display =
                                                 "block";
                                 }
-                                if (accountButton) {
-                                        accountButton.href = "/dashboard.html";
-                                }
-                                if (accountButtonText) {
-                                        accountButtonText.textContent =
-                                                "Dashboard";
-                                }
                         } else {
-                                // User is not logged in
+                                // User is not logged in - hide dashboard menu item
                                 if (dashboardMenuItem) {
                                         dashboardMenuItem.style.display =
                                                 "none";
-                                }
-                                if (accountButton) {
-                                        accountButton.href = "/auth/login.html";
-                                }
-                                if (accountButtonText) {
-                                        accountButtonText.textContent =
-                                                "Account";
                                 }
                         }
                 }
