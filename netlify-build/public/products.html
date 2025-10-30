@@ -566,6 +566,17 @@
                                 </div>
                         </div>
                 </div>
+                
+                <!-- Category Filter Section -->
+                <div class="elementor-element e-flex e-con-boxed e-con e-parent" style="background-color: #f5f5f5; padding: 20px 0;">
+                        <div class="e-con-inner">
+                                <div id="category-filters" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; padding: 0 20px;">
+                                        <!-- Category buttons will be loaded here by JavaScript -->
+                                        <button class="category-filter-btn active" data-category="">All Products</button>
+                                </div>
+                        </div>
+                </div>
+                
                 <div class="elementor-element elementor-element-0037b70 e-con-full e-flex e-con e-child" data-id="0037b70" data-element_type="container">
                         <div class="e-con-inner product-grid" id="product-grid">
                                 <!-- Products will be loaded here by JavaScript -->
@@ -632,6 +643,41 @@
 
     .product-item .elementor-button {
         margin-top: 15px;
+    }
+    
+    /* Category Filter Buttons Styling */
+    .category-filter-btn {
+        background-color: #ffffff;
+        color: #333;
+        border: 2px solid #ddd;
+        padding: 12px 24px;
+        font-size: 16px;
+        font-weight: 500;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: capitalize;
+    }
+    
+    .category-filter-btn:hover {
+        background-color: #f0f0f0;
+        border-color: #ff6b35;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .category-filter-btn.active {
+        background-color: #ff6b35;
+        color: #ffffff;
+        border-color: #ff6b35;
+        box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+    }
+    
+    @media (max-width: 768px) {
+        .category-filter-btn {
+            padding: 10px 20px;
+            font-size: 14px;
+        }
     }
     </style>
 
@@ -1250,23 +1296,11 @@
         </script>
 
         <script>
-        // Load products dynamically
-        document.addEventListener('DOMContentLoaded', async () => {
-                const urlParams = new URLSearchParams(window.location.search);
-                const categoryEncoded = urlParams.get('categories');
-                let category = null;
-                
-                // Display category name
-                if (categoryEncoded) {
-                        try {
-                                category = atob(categoryEncoded);
-                                document.getElementById('category-name-display').textContent = category;
-                        } catch (e) {
-                                console.error('Invalid category parameter');
-                        }
-                }
-
-                // Load products
+        // Global variable to store current category filter
+        let currentCategoryFilter = null;
+        
+        // Function to load and display products
+        async function loadProducts(categoryEncoded = null) {
                 try {
                         const response = await fetch('/.netlify/functions/get-products' + (categoryEncoded ? `?category=${categoryEncoded}` : ''));
                         const products = await response.json();
@@ -1318,6 +1352,86 @@
                         console.error('Error loading products:', error);
                         document.getElementById('product-grid').innerHTML = '<div style="text-align: center; padding: 50px; color: red;"><h2>Error loading products. Please try again later.</h2></div>';
                 }
+        }
+        
+        // Function to load categories and create filter buttons
+        async function loadCategories() {
+                try {
+                        const response = await fetch('/.netlify/functions/get-categories');
+                        const categories = await response.json();
+                        
+                        const filtersContainer = document.getElementById('category-filters');
+                        
+                        // Add category buttons (All Products button is already in HTML)
+                        if (categories && categories.length > 0) {
+                                categories.forEach(category => {
+                                        const button = document.createElement('button');
+                                        button.className = 'category-filter-btn';
+                                        button.textContent = category.name;
+                                        button.setAttribute('data-category', category.name);
+                                        
+                                        // Add click event listener
+                                        button.addEventListener('click', () => filterByCategory(category.name, button));
+                                        
+                                        filtersContainer.appendChild(button);
+                                });
+                        }
+                        
+                        // Add click event to "All Products" button
+                        const allProductsBtn = filtersContainer.querySelector('[data-category=""]');
+                        if (allProductsBtn) {
+                                allProductsBtn.addEventListener('click', () => filterByCategory(null, allProductsBtn));
+                        }
+                } catch (error) {
+                        console.error('Error loading categories:', error);
+                }
+        }
+        
+        // Function to filter products by category
+        function filterByCategory(categoryName, clickedButton) {
+                // Update active state
+                document.querySelectorAll('.category-filter-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                });
+                clickedButton.classList.add('active');
+                
+                // Update category display name
+                const displayName = categoryName || 'All Products';
+                document.getElementById('category-name-display').textContent = displayName;
+                
+                // Load products for selected category
+                const categoryEncoded = categoryName ? btoa(categoryName) : null;
+                currentCategoryFilter = categoryEncoded;
+                loadProducts(categoryEncoded);
+        }
+        
+        // Initialize page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', async () => {
+                // Load categories first
+                await loadCategories();
+                
+                // Check URL parameters for initial category
+                const urlParams = new URLSearchParams(window.location.search);
+                const categoryEncoded = urlParams.get('categories');
+                
+                if (categoryEncoded) {
+                        try {
+                                const category = atob(categoryEncoded);
+                                // Find and activate the corresponding button
+                                const categoryBtn = document.querySelector(`[data-category="${category}"]`);
+                                if (categoryBtn) {
+                                        document.querySelectorAll('.category-filter-btn').forEach(btn => btn.classList.remove('active'));
+                                        categoryBtn.classList.add('active');
+                                }
+                                document.getElementById('category-name-display').textContent = category;
+                                currentCategoryFilter = categoryEncoded;
+                        } catch (e) {
+                                console.error('Invalid category parameter');
+                        }
+                }
+                
+                // Load products
+                await loadProducts(currentCategoryFilter);
         });
         </script>
 
